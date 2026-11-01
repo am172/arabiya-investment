@@ -1,0 +1,301 @@
+export const TEXT_GROUPS = [
+  {
+    id: 'general',
+    label: 'General and SEO',
+    fields: [
+      ['general_fallbackName', 'Fallback site name (when Site settings has none)', 'أكاديمية التعلم'],
+      ['general_metaTitle', 'Default page title suffix', 'تعليم مباشر عبر الإنترنت'],
+      ['general_metaDescription', 'Default meta description', 'دروس مباشرة عبر الإنترنت مع معلمين معتمدين وشغوفين.', true]
+    ]
+  },
+  {
+    id: 'nav',
+    label: 'Navigation',
+    fields: [
+      ['nav_home', 'Home link', 'الرئيسية'],
+      ['nav_showcase', 'Student stories link', 'طلابنا'],
+      ['nav_features', 'About/Features link', 'عنا'],
+      ['nav_teachers', 'Teachers link', 'المعلمون'],
+      ['nav_testimonials', 'Testimonials link', 'آراء العملاء'],
+      ['nav_packages', 'Packages link', 'الباقات'],
+      ['nav_faq', 'FAQ link', 'الأسئلة الشائعة'],
+      ['nav_learnMore', 'Learn more link', 'اعرف المزيد'],
+      ['nav_contact', 'Contact link', 'تواصل معنا'],
+      ['nav_cta', 'Navbar button', 'تجربة مجانية'],
+      ['nav_openMenu', 'Open menu (accessibility)', 'فتح القائمة'],
+      ['nav_closeMenu', 'Close menu (accessibility)', 'إغلاق القائمة'],
+      ['nav_primaryLabel', 'Main navigation (accessibility)', 'التنقل الرئيسي'],
+      ['nav_mobileLabel', 'Mobile menu (accessibility)', 'قائمة الجوال'],
+      ['nav_toLight', 'Switch to light mode (accessibility)', 'التبديل إلى الوضع الفاتح'],
+      ['nav_toDark', 'Switch to dark mode (accessibility)', 'التبديل إلى الوضع الداكن'],
+      ['nav_whatsapp', 'WhatsApp button (accessibility)', 'تواصل معنا عبر واتساب']
+    ]
+  },
+  {
+    id: 'footer',
+    label: 'Footer',
+    fields: [
+      ['footer_description', 'Description (when no tagline is set)', 'دروس مباشرة عبر الإنترنت يقدمها معلمون معتمدون وشغوفون.', true],
+      ['footer_explore', 'Links heading', 'روابط سريعة'],
+      ['footer_contact', 'Contact heading', 'معلومات التواصل'],
+      ['footer_noContact', 'Text when no contact details exist', 'استخدم نموذج التواصل وسنعاود الاتصال بك قريبًا.'],
+      ['footer_rights', 'Copyright text', 'جميع الحقوق محفوظة.'],
+      ['footer_privacy', 'Privacy link', 'سياسة الخصوصية'],
+      ['footer_terms', 'Terms link', 'الشروط والأحكام']
+    ]
+  },
+  {
+    id: 'common',
+    label: 'Common and errors',
+    fields: [
+      ['common_close', 'Close (accessibility)', 'إغلاق'],
+      ['common_closeDialog', 'Close dialog (accessibility)', 'إغلاق النافذة'],
+      ['common_backHome', 'Back to home button', 'العودة إلى الرئيسية'],
+      ['common_tryAgain', 'Try again button', 'حاول مرة أخرى'],
+      ['common_notFoundTitle', '404 title', 'الصفحة غير موجودة'],
+      ['common_notFoundText', '404 text', 'الصفحة التي تبحث عنها غير موجودة أو تم نقلها.', true],
+      ['common_errorTitle', 'Error page title', 'حدث خطأ ما'],
+      ['common_errorText', 'Error page text', 'وقع خطأ غير متوقع. يرجى المحاولة مرة أخرى.', true]
+    ]
+  },
+  {
+    id: 'stats',
+    label: 'Stats section',
+    fields: [
+      ['stats_eyebrow', 'Small label', 'أثرنا'],
+      ['stats_title', 'Title', 'أرقام'],
+      ['stats_highlight', 'Highlighted words', 'تتحدث عن نفسها'],
+      ['stats_description', 'Description', 'كل رقم يمثل متعلمًا اكتشف متعة التعلم.', true]
+    ]
+  },
+  {
+    id: 'features',
+    label: 'Features, steps, subjects, FAQ',
+    fields: [
+      ['features_eyebrow', 'Features: small label', 'لماذا نحن'],
+      ['features_title', 'Features: title', 'مصممون وفق'],
+      ['features_highlight', 'Features: highlighted words', 'طريقة تعلّم الأطفال'],
+      ['features_region', 'Features marquee (accessibility)', 'لماذا تختارنا'],
+      ['steps_eyebrow', 'Steps: small label', 'كيف نعمل'],
+      ['steps_title', 'Steps: title', 'البدء يحتاج'],
+      ['steps_highlight', 'Steps: highlighted words', 'ثلاث خطوات بسيطة'],
+      ['steps_step', 'Step badge (use {n})', 'الخطوة {n}'],
+      ['subjects_eyebrow', 'Subjects: small label', 'ماذا سيتعلمون'],
+      ['subjects_title', 'Subjects: title', 'مواد تُشعل'],
+      ['subjects_highlight', 'Subjects: highlighted words', 'الفضول'],
+      ['subjects_notFound', 'Subjects: text above the button', 'لم تجد ما تبحث عنه؟ أخبرنا وسنرى ما يمكننا فعله.', true],
+      ['subjects_request', 'Subjects: request button', 'اطلب مادة جديدة'],
+      ['faq_eyebrow', 'FAQ: small label', 'الأسئلة الشائعة'],
+      ['faq_title', 'FAQ: title', 'أسئلة'],
+      ['faq_highlight', 'FAQ: highlighted words', 'يطرحها أولياء الأمور'],
+      ['faq_seeAll', 'FAQ: see all button', 'عرض كل الأسئلة']
+    ]
+  },
+  {
+    id: 'teachers',
+    label: 'Teachers',
+    fields: [
+      ['teachers_eyebrow', 'Small label', 'تعرّف على الفريق'],
+      ['teachers_title', 'Title', 'معلمون'],
+      ['teachers_highlight', 'Highlighted words', 'يحبهم الطلاب'],
+      ['teachers_description', 'Description', 'معلمون معتمدون وصبورون وشغوفون يجعلون كل حصة مباشرة تجربة ممتعة.', true],
+      ['teachers_prev', 'Previous (accessibility)', 'المعلمون السابقون'],
+      ['teachers_next', 'Next (accessibility)', 'المعلمون التاليون'],
+      ['teachers_experience', 'Experience (use {n})', '{n} سنوات خبرة'],
+      ['teachers_students', 'Students (use {n})', 'أكثر من {n} طالب'],
+      ['teachers_empty', 'Empty state', 'سيظهر معلمونا هنا قريبًا.'],
+      ['teachers_ctaTitle', 'Page banner title', 'تعرّف على معلم طفلك'],
+      ['teachers_ctaText', 'Page banner text', 'احجز حصة تجريبية مجانية وتعرّف على أسلوب التدريس بنفسك.', true],
+      ['teachers_ctaButton', 'Page banner button', 'احجز حصة تجريبية']
+    ]
+  },
+  {
+    id: 'showcase',
+    label: 'Student stories',
+    fields: [
+      ['showcase_eyebrow', 'Small label', 'قصص النجاح'],
+      ['showcase_title', 'Title', 'تقدّم حقيقي،'],
+      ['showcase_highlight', 'Highlighted words', 'وابتسامات حقيقية'],
+      ['showcase_description', 'Description', 'شاهد طلابنا وهم يشاركون ما تعلموه وإلى أين وصلوا.', true],
+      ['showcase_viewAll', 'View all button', 'عرض كل القصص'],
+      ['showcase_featured', 'Featured badge', 'مميز'],
+      ['showcase_play', 'Play (accessibility, use {title})', 'تشغيل: {title}'],
+      ['showcase_age', 'Student age (use {n})', '{n} سنة'],
+      ['showcase_openNewTab', 'Open video link', 'افتح الفيديو في تبويب جديد'],
+      ['showcase_all', 'Filter: all', 'كل القصص'],
+      ['showcase_loadMore', 'Load more button', 'عرض المزيد'],
+      ['showcase_showing', 'Counter (use {shown} and {total})', 'عرض {shown} من {total} قصة'],
+      ['showcase_empty', 'Empty state', 'ستظهر قصص الطلاب هنا قريبًا.'],
+      ['showcase_ctaTitle', 'Page banner title', 'هل تريد أن ترى طفلك يتألق؟'],
+      ['showcase_ctaText', 'Page banner text', 'احجز حصة تجريبية مجانية وابدأ قصة نجاح طفلك.', true],
+      ['showcase_ctaPrimary', 'Page banner primary button', 'احجز حصة تجريبية'],
+      ['showcase_ctaSecondary', 'Page banner secondary button', 'تعرّف على المعلمين']
+    ]
+  },
+  {
+    id: 'testimonials',
+    label: 'Testimonials',
+    fields: [
+      ['testimonials_eyebrow', 'Small label', 'آراء العملاء'],
+      ['testimonials_title', 'Title', 'محبوبون لدى'],
+      ['testimonials_highlight', 'Highlighted words', 'الأسر في كل مكان'],
+      ['testimonials_description', 'Description', 'اسمع من الأشخاص الذين وثقوا بنا في رحلتهم التعليمية.', true],
+      ['testimonials_region', 'Reviews region (accessibility)', 'آراء العملاء'],
+      ['testimonials_prev', 'Previous (accessibility)', 'الرأي السابق'],
+      ['testimonials_next', 'Next (accessibility)', 'الرأي التالي'],
+      ['testimonials_stars', 'Stars (accessibility, use {n})', '{n} من 5 نجوم']
+    ]
+  },
+  {
+    id: 'packages',
+    label: 'Packages',
+    fields: [
+      ['packages_eyebrow', 'Small label', 'الأسعار'],
+      ['packages_title', 'Title', 'خطط بسيطة'],
+      ['packages_highlight', 'Highlighted words', 'تناسب كل أسرة'],
+      ['packages_description', 'Description', 'باقات مرنة بلا رسوم خفية. ابدأ بحصة تجريبية مجانية وغيّر باقتك في أي وقت.', true],
+      ['packages_popular', 'Popular badge (when the package has no badge)', 'الأكثر طلبًا'],
+      ['packages_sessions', 'Sessions (use {n})', '{n} حصة شهريًا'],
+      ['packages_minutes', 'Duration (use {n})', '{n} دقيقة للحصة'],
+      ['packages_save', 'Discount (use {n})', 'وفّر {n}%'],
+      ['packages_cta', 'Default button label', 'ابدأ الآن'],
+      ['packages_period_weekly', 'Billing: weekly', '/ أسبوع'],
+      ['packages_period_monthly', 'Billing: monthly', '/ شهر'],
+      ['packages_period_quarterly', 'Billing: quarterly', '/ ربع سنة'],
+      ['packages_period_yearly', 'Billing: yearly', '/ سنة'],
+      ['packages_period_onetime', 'Billing: one-time', 'دفعة واحدة'],
+      ['packages_empty', 'Empty state', 'ستظهر باقاتنا هنا قريبًا.'],
+      ['packages_ctaTitle', 'Page banner title', 'لست متأكدًا أي خطة تناسبك؟'],
+      ['packages_ctaText', 'Page banner text', 'تواصل معنا وسنساعدك في اختيار الباقة المناسبة لطفلك.', true],
+      ['packages_ctaButton', 'Page banner button', 'تواصل معنا']
+    ]
+  },
+  {
+    id: 'contact',
+    label: 'Contact section and form',
+    fields: [
+      ['contact_eyebrow', 'Small label', 'تواصل معنا'],
+      ['contact_title', 'Title', 'مستعد لبدء'],
+      ['contact_highlight', 'Highlighted words', 'الرحلة؟'],
+      ['contact_description', 'Description', 'أخبرنا قليلًا عن طفلك وسنساعدك في اختيار الفصل المناسب.', true],
+      ['contact_perk1', 'Perk 1', 'نرد خلال 24 ساعة'],
+      ['contact_perk2', 'Perk 2', 'حصة تجريبية مجانية للطلاب الجدد'],
+      ['contact_perk3', 'Perk 3', 'بدون أي التزام'],
+      ['contact_labelEmail', 'Email label', 'البريد الإلكتروني'],
+      ['contact_labelPhone', 'Phone label', 'الهاتف'],
+      ['contact_labelWhatsapp', 'WhatsApp label', 'واتساب'],
+      ['contact_labelAddress', 'Address label', 'العنوان'],
+      ['contact_fName', 'Form: name', 'الاسم'],
+      ['contact_fNamePh', 'Form: name placeholder', 'الاسم الكامل'],
+      ['contact_fEmail', 'Form: email', 'البريد الإلكتروني'],
+      ['contact_fPhone', 'Form: phone', 'الهاتف (اختياري)'],
+      ['contact_fAge', 'Form: child age', 'عمر الطفل (اختياري)'],
+      ['contact_fSubject', 'Form: subject', 'الموضوع'],
+      ['contact_fSubjectPh', 'Form: subject placeholder', 'كيف يمكننا مساعدتك؟'],
+      ['contact_fPackage', 'Form: package', 'الباقة التي تهمك'],
+      ['contact_fPackageNone', 'Form: no package option', 'لم أحدد بعد'],
+      ['contact_fMessage', 'Form: message', 'الرسالة'],
+      ['contact_fMessagePh', 'Form: message placeholder', 'أخبرنا عن طفلك وما يرغب في تعلمه...'],
+      ['contact_send', 'Send button', 'إرسال الرسالة'],
+      ['contact_sending', 'Sending state', 'جارٍ الإرسال...'],
+      ['contact_successTitle', 'Success title', 'تم إرسال رسالتك!'],
+      ['contact_successText', 'Success text', 'شكرًا لتواصلك. سيرد عليك فريقنا خلال 24 ساعة.', true],
+      ['contact_another', 'Send another button', 'إرسال رسالة أخرى'],
+      ['contact_subjectNew', 'Subject: new subject request (pre-filled by the button)', 'طلب مادة جديدة'],
+      ['contact_subjectTrial', 'Subject suggestion: trial', 'حصة تجريبية مجانية'],
+      ['contact_subjectPackages', 'Subject suggestion: packages', 'استفسار عن الباقات'],
+      ['contact_subjectGeneral', 'Subject suggestion: general', 'سؤال عام'],
+      ['contact_errName', 'Error: name', 'يرجى إدخال اسمك (من 2 إلى 100 حرف)'],
+      ['contact_errEmail', 'Error: email', 'يرجى إدخال بريد إلكتروني صحيح'],
+      ['contact_errPhone', 'Error: phone', 'يرجى إدخال رقم هاتف صحيح'],
+      ['contact_errAge', 'Error: age', 'يجب أن يكون العمر بين 1 و18'],
+      ['contact_errSubject', 'Error: subject too long', 'يجب ألا يتجاوز الموضوع 150 حرفًا'],
+      ['contact_errMessageMin', 'Error: message too short', 'يجب ألا تقل رسالتك عن 10 أحرف'],
+      ['contact_errMessageMax', 'Error: message too long', 'يجب ألا تتجاوز رسالتك 2000 حرف']
+    ]
+  },
+  {
+    id: 'pages',
+    label: 'Learn more, About and page titles',
+    fields: [
+      ['learnHero_eyebrow', 'Learn more: small label', 'اعرف المزيد'],
+      ['learnHero_title', 'Learn more: title', 'تعلّم يشبه'],
+      ['learnHero_highlight', 'Learn more: highlighted words', 'اللعب'],
+      ['learnHero_description', 'Learn more: description', 'تعرّف على طريقة عملنا، وما يميّز فصولنا، وما سيتعلمه طفلك.', true],
+      ['learn_ctaTitle', 'Learn more banner: title', 'مستعد لرؤية الفرق بنفسك؟'],
+      ['learn_ctaText', 'Learn more banner: text', 'احجز حصة تجريبية مجانية ودع طفلك يعيش التجربة.', true],
+      ['learn_ctaPrimary', 'Learn more banner: primary button', 'احجز حصة تجريبية'],
+      ['learn_ctaSecondary', 'Learn more banner: secondary button', 'عرض الأسعار'],
+      ['aboutHero_eyebrow', 'About: small label', 'من نحن'],
+      ['aboutHero_title', 'About: title', 'نؤمن أن كل طفل'],
+      ['aboutHero_highlight', 'About: highlighted words', 'يستطيع أن يتألق'],
+      ['aboutHero_description', 'About: description', 'مجتمع تعليمي عبر الإنترنت يجمع الأطفال الفضوليين بمعلمين يهتمون بهم.', true],
+      ['about_ctaTitle', 'About banner: title', 'انضم إلى عائلتنا'],
+      ['about_ctaText', 'About banner: text', 'ابدأ بحصة تجريبية مجانية واكتشف لماذا تختارنا الأسر.', true],
+      ['about_ctaPrimary', 'About banner: primary button', 'احجز حصة تجريبية'],
+      ['about_ctaSecondary', 'About banner: secondary button', 'تعرّف على المعلمين'],
+      ['meta_learnMore', 'Browser title: Learn more', 'اعرف المزيد'],
+      ['meta_about', 'Browser title: About', 'من نحن'],
+      ['meta_teachers', 'Browser title: Teachers', 'معلمونا'],
+      ['meta_stories', 'Browser title: Student stories', 'قصص النجاح'],
+      ['meta_packages', 'Browser title: Packages', 'الأسعار'],
+      ['meta_contact', 'Browser title: Contact', 'تواصل معنا'],
+      ['story_more', 'Our story: read more button', 'اعرف المزيد'],
+      ['story_chapter', 'Our story: chapter label (use {n})', 'الفصل {n}'],
+    ]
+  },
+  {
+    id: 'legal',
+    label: 'Legal pages (labels)',
+    fields: [
+      ['legal_updated', 'Last updated (use {date})', 'آخر تحديث: {date}'],
+      ['legal_toc', 'Table of contents heading', 'المحتويات'],
+      ['legal_tocLabel', 'Table of contents (accessibility)', 'محتويات الصفحة'],
+      ['legal_loadError', 'Text shown if content fails to load', 'تعذر تحميل المحتوى حاليًا. يرجى المحاولة مرة أخرى بعد قليل.', true],
+      ['legal_privacyTitle', 'Fallback privacy title', 'سياسة الخصوصية'],
+      ['legal_termsTitle', 'Fallback terms title', 'الشروط والأحكام']
+    ]
+  },
+  {
+    id: 'currency',
+    label: 'Currency switcher',
+    fields: [
+      ['currency_choose', 'Currency picker (accessibility)', 'اختر العملة'],
+      ['currency_approx', 'Converted price note', 'سعر تقريبي بحسب سعر الصرف الحالي', true],
+      ['currency_attribution', 'Rates credit', 'أسعار الصرف من']
+    ]
+  },
+  {
+    id: 'verify',
+    label: 'Certificate verification',
+    fields: [
+      ['verify_meta', 'Browser title', 'التحقق من الشهادة'],
+      ['verify_eyebrow', 'Small label', 'التحقق من الشهادات'],
+      ['verify_title', 'Title', 'تحقق من'],
+      ['verify_highlight', 'Highlighted words', 'صحة الشهادة'],
+      ['verify_description', 'Description', 'أدخل رمز التحقق المطبوع على الشهادة أو امسح رمز QR للتأكد من أنها صادرة عنا وسارية.', true],
+      ['verify_inputLabel', 'Input label', 'رمز التحقق'],
+      ['verify_button', 'Verify button', 'تحقق الآن'],
+      ['verify_invalidFormat', 'Invalid code message', 'الرمز غير صحيح. تأكد من كتابة 12 حرفًا ورقمًا.'],
+      ['verify_validTitle', 'Valid title', 'شهادة صحيحة وموثّقة'],
+      ['verify_validText', 'Valid text', 'هذه الشهادة صادرة عنا وبياناتها مطابقة لسجلاتنا.', true],
+      ['verify_revokedTitle', 'Revoked title', 'شهادة ملغاة'],
+      ['verify_revokedText', 'Revoked text', 'هذه الشهادة كانت صادرة عنا لكنها ملغاة ولم تعد سارية.', true],
+      ['verify_notFoundTitle', 'Not found title', 'لم يتم العثور على الشهادة'],
+      ['verify_notFoundText', 'Not found text', 'لا توجد شهادة بهذا الرمز. تأكد من كتابته بشكل صحيح.', true],
+      ['verify_errorTitle', 'Error title', 'تعذر التحقق حاليًا'],
+      ['verify_errorText', 'Error text', 'حدثت مشكلة مؤقتة. يرجى المحاولة بعد قليل.', true],
+      ['verify_student', 'Student label', 'اسم الطالب'],
+      ['verify_course', 'Course label', 'الدورة'],
+      ['verify_serial', 'Serial label', 'الرقم التسلسلي'],
+      ['verify_issued', 'Issued label', 'تاريخ الإصدار'],
+      ['verify_completed', 'Completed label', 'تاريخ الإتمام'],
+      ['verify_hours', 'Hours label', 'عدد الساعات'],
+      ['verify_hoursValue', 'Hours value (use {n})', '{n} ساعة'],
+      ['verify_grade', 'Grade label', 'التقدير'],
+      ['verify_revokedAt', 'Revoked on label', 'تاريخ الإلغاء'],
+      ['verify_another', 'Check another prompt', 'التحقق من شهادة أخرى'],
+      ['verify_footerLink', 'Footer link', 'التحقق من شهادة']
+    ]
+  },
+];

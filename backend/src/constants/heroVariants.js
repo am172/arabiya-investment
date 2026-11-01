@@ -1,0 +1,1 @@
+module.exports = Object.freeze(['split', 'banner', 'features', 'centered', 'aurora', 'bento']);

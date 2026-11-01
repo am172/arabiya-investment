@@ -1,0 +1,26 @@
+export const ROUTES = Object.freeze({
+  LOGIN: '/login',
+  OVERVIEW: '/',
+  ANALYTICS: '/overview/analytics',
+  CATALOG: '/catalog',
+  CATALOG_NEW: '/catalog/new',
+  CATALOG_EDIT: '/catalog/:id/edit',
+  OPTION_TEMPLATES: '/option-templates',
+  REQUESTS: '/requests',
+  MESSAGES: '/messages',
+  VIDEOS: '/videos',
+  VIDEO_NEW: '/videos/new',
+  VIDEO_EDIT: '/videos/:id/edit',
+  TESTIMONIALS: '/testimonials',
+  STATS: '/stats',
+  THEME: '/theme',
+  HOME_LAYOUT: '/home-layout',
+  CONTENT: '/content',
+  TEXTS: '/texts',
+  LEGAL: '/legal',
+  SETTINGS: '/settings',
+  ADMINS: '/admins',
+  PROFILE: '/profile'
+});
+
+export const withId = (route, id) => route.replace(':id', id);
