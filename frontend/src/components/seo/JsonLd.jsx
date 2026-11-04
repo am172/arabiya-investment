@@ -15,7 +15,7 @@ export default function JsonLd({ settings }) {
     const seo = settings.seo || {};
     const data = clean({
         '@context': 'https://schema.org',
-        '@type': 'EducationalOrganization',
+        '@type': 'Organization',
         name: settings.siteName,
         url: SITE_URL,
         logo: settings.logo && settings.logo.url,

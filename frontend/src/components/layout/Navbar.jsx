@@ -17,7 +17,6 @@ import Button from '@/components/ui/Button';
 import { useT } from '@/components/providers/TextsProvider';
 import { buildNavigation } from '@/content/navigation';
 import { arabic } from '@/lib/fonts';
-import CurrencySwitcher from './CurrencySwitcher';
 export default function Navbar({ siteName, logo }) {
   const t = useT();
   const navigation = useMemo(() => buildNavigation(t), [t]);
@@ -136,7 +135,6 @@ export default function Navbar({ siteName, logo }) {
         </nav>
 
         <div className="flex items-center gap-3 justify-self-end">
-          {/* <CurrencySwitcher /> */} 
           <ThemeToggle />
           <Button
             href={navigation.cta.href}

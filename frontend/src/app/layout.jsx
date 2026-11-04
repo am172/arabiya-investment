@@ -14,9 +14,9 @@ import { arabic } from '@/lib/fonts';
 import { SectionsProvider } from '@/components/providers/SectionsProvider';
 import { getContent } from '@/lib/api/content';
 import { getHiddenSections, resolveSections } from '@/lib/sections';
-import { CurrencyProvider } from '@/components/providers/CurrencyProvider';
 import SplashScreen, { SPLASH_SCRIPT } from '@/components/layout/SplashScreen';
 import { siteBase } from '@/lib/site';
+import { RequestProvider } from '@/components/providers/RequestProvider'
 export const revalidate = 60;
 
 export async function generateMetadata() {
@@ -83,7 +83,7 @@ export default async function RootLayout({ children }) {
         )}
         <TextsProvider values={texts}>
           <SectionsProvider hidden={hiddenSections}>
-            <CurrencyProvider>
+            <RequestProvider>
               <ThemeProvider>
                 <AnalyticsProvider />
                 <HashScroller />
@@ -98,7 +98,7 @@ export default async function RootLayout({ children }) {
                 />
                 <FloatingWhatsApp number={settings && settings.contact && settings.contact.whatsapp} />
               </ThemeProvider>
-            </CurrencyProvider>
+            </RequestProvider>
           </SectionsProvider>
         </TextsProvider>
       </body>

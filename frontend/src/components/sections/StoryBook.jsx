@@ -115,7 +115,7 @@ export default function StoryBook({ header, paragraphs = [] }) {
     const hasNav = total > 1;
 
     return (
-        <div className="relative py-16 overflow-hidden sm:py-20 lg:py-24">
+        <div className="relative">
             <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
                 <div className="absolute -start-24 top-1/4 h-80 w-80 rounded-full bg-primary/15 blur-[120px] dark:bg-primary/10" />
                 <div className="absolute -end-24 bottom-0 h-72 w-72 rounded-full bg-amber-400/15 blur-[120px] dark:bg-amber-300/10" />

@@ -8,7 +8,7 @@ export const arNav = {
     'Story from Page content': 'القصة من محتوى الصفحة',
     Notebook: 'دفتر',
     'A flipping notebook of pages': 'دفتر تقلب صفحاته',
-    Editorial: 'تحريري',
+    Editorial: 'تحريري (الأساسي)',
     'Heading beside a large lead paragraph': 'العنوان بجانب فقرة افتتاحية كبيرة',
     'Chapter cards': 'بطاقات فصول',
     'Each paragraph as a numbered card': 'كل فقرة في بطاقة مرقمة'

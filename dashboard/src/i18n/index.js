@@ -8,8 +8,8 @@ import { arNav } from './ar.nav';
 import { arAlerts } from './ar.alerts';
 import { arSeo } from './ar.seo';
 import { arCatalog } from './ar.catalog';
-
-const dictionary = { ...ar, ...arPages, ...arCatalog, ...arFeatures, ...arUpdates, ...arThemes, ...arLayouts, ...arNav, ...arAlerts, ...arSeo };
+import { arHero } from './ar.hero';
+const dictionary = { ...ar, ...arPages, ...arCatalog, ...arHero, ...arFeatures, ...arUpdates, ...arThemes, ...arLayouts, ...arNav, ...arAlerts, ...arSeo };
 
 export const t = (key, vars) => {
   const raw = Object.prototype.hasOwnProperty.call(dictionary, key) ? dictionary[key] : key;

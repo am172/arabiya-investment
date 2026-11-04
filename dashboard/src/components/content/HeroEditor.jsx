@@ -5,6 +5,7 @@ import ImageUploader from '../common/ImageUploader';
 import ContentListEditor from './ContentListEditor';
 import uid from '../../utils/uid';
 import { t } from '../../i18n';
+import HeroSlidesEditor from './HeroSlidesEditor';
 
 const EMPTY_IMAGE = { url: '', publicId: '' };
 
@@ -14,10 +15,10 @@ const CHECKERBOARD = {
 };
 
 const VARIANTS = [
+  { id: 'centered', label: 'Centered', text: 'Blur effects, pills and a company slider' },
   { id: 'split', label: 'Split', text: 'Text beside an image' },
   { id: 'banner', label: 'Banner', text: 'Full-width background image' },
   { id: 'features', label: 'Feature grid', text: 'Badges and live stats' },
-  { id: 'centered', label: 'Centered', text: 'Blur effects and pills' },
   { id: 'aurora', label: 'Aurora', text: 'Animated glow and glass chips' },
   { id: 'bento', label: 'Bento', text: 'Modern tile grid' }
 ];
@@ -175,9 +176,8 @@ export default function HeroEditor({ hero, onChange, errors }) {
                 type="button"
                 aria-pressed={selected}
                 onClick={() => set('variant', variant.id)}
-                className={`relative overflow-hidden rounded-2xl border text-start transition hover:-translate-y-0.5 hover:shadow-md ${
-                  selected ? 'border-brand-500 ring-2 ring-brand-500/20' : 'border-slate-200'
-                }`}
+                className={`relative overflow-hidden rounded-2xl border text-start transition hover:-translate-y-0.5 hover:shadow-md ${selected ? 'border-brand-500 ring-2 ring-brand-500/20' : 'border-slate-200'
+                  }`}
               >
                 <div dir="ltr" className="h-24 bg-slate-50">
                   <Wireframe id={variant.id} />
@@ -196,6 +196,8 @@ export default function HeroEditor({ hero, onChange, errors }) {
           })}
         </div>
       </section>
+      
+      {hero.variant === 'centered' && <HeroSlidesEditor hero={hero} errors={errors} onChange={onChange} />}
 
       <section className="p-6 card">
         <h3 className="text-base font-semibold text-slate-900">{t('Texts')}</h3>

@@ -1,6 +1,7 @@
 import SectionTitle from '@/components/ui/SectionTitle';
 import Button from '@/components/ui/Button';
 import Reveal from '@/components/ui/Reveal';
+import LinesBackdrop from '@/components/ui/LinesBackdrop';
 import { ArrowLeft } from 'lucide-react';
 import { arabic, handwriting } from '@/lib/fonts';
 import { getT } from '@/lib/serverTexts';
@@ -20,8 +21,10 @@ export default async function StorySection({ story, variant = 'book', moreHref =
             id="story"
             dir="rtl"
             lang="ar"
-            className={`${arabic.variable} ${handwriting.variable} font-arabic relative overflow-hidden bg-background py-16 sm:py-24`}
+            className={`${arabic.variable} ${handwriting.variable} font-arabic relative isolate overflow-hidden py-16 sm:py-24`}
         >
+            <LinesBackdrop />
+
             {variant === 'editorial' ? (
                 <StoryEditorial data={data} paragraphs={paragraphs} />
             ) : variant === 'chapters' ? (

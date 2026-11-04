@@ -1,19 +1,36 @@
+// خط الموقع الأساسي في تصميم الفيجما: Cairo — Medium (500)
+export const BRAND_FONT = 'Cairo';
+export const BRAND_FONT_WEIGHT = 500;
+
 export const FONT_CATEGORIES = [
     {
         id: 'arabic',
-        label: 'Arabic',
+        label: 'Arabic (Corporate)',
         fonts: [
             'Cairo',
+            'Tajawal',
+            'Almarai',
             'IBM Plex Sans Arabic',
             'Noto Sans Arabic',
             'Noto Kufi Arabic',
             'Readex Pro',
+            'Alexandria',
+            'Vazirmatn',
+            'Mada',
+            'Zain',
+            'Rubik',
+            'Changa'
+        ]
+    },
+    {
+        id: 'arabic-display',
+        label: 'Arabic (Heritage & Display)',
+        fonts: [
             'El Messiri',
             'Reem Kufi',
-            'Baloo Bhaijaan 2',
-            'Changa',
             'Markazi Text',
-            'Noto Naskh Arabic'
+            'Noto Naskh Arabic',
+            'Amiri'
         ]
     },
     {
@@ -21,22 +38,21 @@ export const FONT_CATEGORIES = [
         label: 'Sans-serif',
         fonts: [
             'Inter',
+            'IBM Plex Sans',
+            'Roboto',
+            'Open Sans',
+            'Lato',
+            'Montserrat',
             'Poppins',
-            'DM Sans',
             'Manrope',
             'Plus Jakarta Sans',
-            'Outfit',
-            'Sora',
-            'Montserrat',
-            'Open Sans',
+            'DM Sans',
             'Work Sans',
-            'Figtree',
-            'Rubik',
-            'Lexend',
-            'Raleway',
+            'Source Sans 3',
             'Public Sans',
-            'Albert Sans',
-            'Source Sans 3'
+            'Nunito Sans',
+            'Figtree',
+            'Outfit'
         ]
     },
     {
@@ -44,33 +60,28 @@ export const FONT_CATEGORIES = [
         label: 'Serif',
         fonts: [
             'Playfair Display',
-            'Fraunces',
+            'Merriweather',
             'Lora',
+            'Source Serif 4',
+            'Libre Baskerville',
             'Cormorant Garamond',
             'EB Garamond',
-            'Source Serif 4',
             'Crimson Pro'
         ]
     },
     {
-        id: 'rounded',
-        label: 'Rounded & friendly',
-        fonts: ['Nunito', 'Baloo 2', 'Quicksand', 'Fredoka', 'Comfortaa']
-    },
-    {
         id: 'display',
-        label: 'Modern display',
+        label: 'Industrial & modern display',
         fonts: [
             'Space Grotesk',
-            'Syne',
-            'Bricolage Grotesque',
-            'Unbounded',
+            'Archivo',
+            'Sora',
             'Urbanist',
-            'Epilogue',
-            'Archivo'
+            'Barlow',
+            'Barlow Condensed',
+            'Oswald'
         ]
-    },
-
+    }
 ];
 
 export const ALL_FONTS = FONT_CATEGORIES.flatMap((group) => group.fonts);

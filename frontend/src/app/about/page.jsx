@@ -27,7 +27,7 @@ export default async function AboutPage() {
                 title={t('about_ctaTitle')}
                 description={t('about_ctaText')}
                 primary={{ label: t('about_ctaPrimary'), href: '/#contact' }}
-                secondary={{ label: t('about_ctaSecondary'), href: '/teachers' }}
+                secondary={{ label: t('about_ctaSecondary'), href: '/products' }}
             />
         </main>
     );

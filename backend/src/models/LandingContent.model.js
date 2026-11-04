@@ -3,6 +3,7 @@ const defaults = require('../constants/defaultContent');
 const HERO_VARIANTS = require('../constants/heroVariants');
 const HOME_SECTIONS = require('../constants/homeSections');
 const SECTION_VARIANTS = require('../constants/sectionVariants');
+const SLIDER = require('../constants/heroSlider');
 const ALL_VARIANTS = [...new Set(Object.values(SECTION_VARIANTS).flat())];
 const icon = () => ({ type: String, trim: true, lowercase: true, maxlength: 30, default: 'sparkles' });
 
@@ -29,6 +30,21 @@ const badgeSchema = new mongoose.Schema(
   {
     icon: icon(),
     text: { type: String, required: true, trim: true, maxlength: 40 }
+  },
+  { _id: false }
+);
+
+const slideSchema = new mongoose.Schema(
+  {
+    isActive: { type: Boolean, default: true },
+    company: { type: String, trim: true, maxlength: 80, default: '' },
+    logo: asset(),
+    eyebrow: { type: String, trim: true, maxlength: 80, default: '' },
+    title: { type: String, required: true, trim: true, maxlength: 160 },
+    description: { type: String, trim: true, maxlength: 500, default: '' },
+    image: asset(),
+    primaryCta: cta(),
+    secondaryCta: cta()
   },
   { _id: false }
 );
@@ -71,7 +87,15 @@ const landingContentSchema = new mongoose.Schema(
       bannerOverlay: { type: Number, min: 0, max: 90, default: 55 },
       badges: { type: [badgeSchema], default: [] },
       primaryCta: cta(),
-      secondaryCta: cta()
+      secondaryCta: cta(),
+      slides: { type: [slideSchema], default: [] },
+      slider: {
+        autoplay: { type: Boolean, default: true },
+        interval: { type: Number, min: SLIDER.MIN_INTERVAL, max: SLIDER.MAX_INTERVAL, default: 6 },
+        effect: { type: String, enum: SLIDER.EFFECTS, default: 'fade' },
+        showArrows: { type: Boolean, default: true },
+        showDots: { type: Boolean, default: true }
+      }
     },
     sections: { type: [sectionSchema], default: [] },
     features: { type: [featureSchema], default: [] },
@@ -118,10 +142,12 @@ landingContentSchema.statics.getContent = async function () {
     }
     if (stored.primaryCta === undefined) patch['hero.primaryCta'] = fresh.hero.primaryCta;
     if (stored.secondaryCta === undefined) patch['hero.secondaryCta'] = fresh.hero.secondaryCta;
+    if (stored.slides === undefined) patch['hero.slides'] = [];
+    if (stored.slider === undefined) patch['hero.slider'] = fresh.hero.slider;
   }
 
   if (raw && raw.sections === undefined) patch.sections = fresh.sections;
-  
+
   if (raw && raw.story === undefined) {
     patch.story = fresh.story || { eyebrow: '', title: '', highlight: '', paragraphs: [] };
   }
@@ -140,13 +166,17 @@ landingContentSchema.statics.replaceContent = async function (update) {
 };
 
 landingContentSchema.statics.resetContent = async function () {
-  const current = await this.getContent();
+  const current = (await this.getContent()).toObject();
   const data = cloneDefaults();
+  const kept = current.hero || {};
 
   ['image', 'bannerImage'].forEach((key) => {
-    const kept = current.hero && current.hero[key];
-    if (kept) data.hero[key] = { url: kept.url || '', publicId: kept.publicId || '' };
+    if (kept[key]) data.hero[key] = { url: kept[key].url || '', publicId: kept[key].publicId || '' };
   });
+
+  data.hero.slides = kept.slides || [];
+  data.hero.slider = { ...data.hero.slider, ...(kept.slider || {}) };
+  if (data.hero.slides.length > 0 && kept.variant) data.hero.variant = kept.variant;
 
   return this.findOneAndUpdate({ key: 'main' }, { $set: data }, { new: true, runValidators: true });
 };

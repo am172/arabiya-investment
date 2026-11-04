@@ -11,15 +11,23 @@ const {
 } = require('./common.validator');
 
 const HERO_VARIANTS = require('../constants/heroVariants');
-
 const HOME_SECTIONS = require('../constants/homeSections');
-const FIELDS = ['hero', 'sections', 'story', 'features', 'steps', 'subjects', 'faqs', 'story'];
-const ICON = /^[a-z0-9-]{1,30}$/;
 const SECTION_VARIANTS = require('../constants/sectionVariants');
+const SLIDER = require('../constants/heroSlider');
+
+const FIELDS = ['hero', 'sections', 'story', 'features', 'steps', 'subjects', 'faqs'];
+const ICON = /^[a-z0-9-]{1,30}$/;
+
 const isSafeHref = (value) => {
   if (value.startsWith('//')) return false;
   if (value.startsWith('/') || value.startsWith('#')) return true;
   return isHttpUrl(value);
+};
+
+const checkBoolean = (item, field, errors) => {
+  if (item[field] !== undefined && typeof item[field] !== 'boolean') {
+    errors.push({ field, message: `${field} must be a boolean` });
+  }
 };
 
 const checkCta = (parent, field, errors) => {
@@ -76,6 +84,28 @@ const iconText = (item, nested) => {
   checkString(item, 'text', { required: true, nonEmpty: true, max: 40 }, nested);
 };
 
+const slideRule = (item, nested) => {
+  checkBoolean(item, 'isActive', nested);
+  checkString(item, 'company', { max: 80 }, nested);
+  checkString(item, 'eyebrow', { max: 80 }, nested);
+  checkString(item, 'title', { required: true, nonEmpty: true, max: 160 }, nested);
+  checkString(item, 'description', { max: 500 }, nested);
+  checkAsset(item, 'logo', { required: false }, nested);
+  checkAsset(item, 'image', { required: false }, nested);
+  checkCta(item, 'primaryCta', nested);
+  checkCta(item, 'secondaryCta', nested);
+};
+
+const checkSlider = (hero, errors) => {
+  validateNested(hero, 'slider', errors, (slider, nested) => {
+    checkBoolean(slider, 'autoplay', nested);
+    checkBoolean(slider, 'showArrows', nested);
+    checkBoolean(slider, 'showDots', nested);
+    checkNumber(slider, 'interval', { integer: true, min: SLIDER.MIN_INTERVAL, max: SLIDER.MAX_INTERVAL }, nested);
+    checkEnum(slider, 'effect', SLIDER.EFFECTS, nested);
+  });
+};
+
 const checkSections = (body, errors) => {
   const value = body.sections;
   if (value === undefined) return;
@@ -124,6 +154,8 @@ const validateUpdateContent = (body) => {
     checkList(value, 'badges', 6, iconText, nested);
     checkCta(value, 'primaryCta', nested);
     checkCta(value, 'secondaryCta', nested);
+    checkList(value, 'slides', SLIDER.MAX_SLIDES, slideRule, nested);
+    checkSlider(value, nested);
   });
 
   checkList(body, 'features', 12, iconTitleText, errors);

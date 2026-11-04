@@ -12,8 +12,9 @@ const HERO_IMAGES = ['image', 'bannerImage'];
 
 const toPublic = (doc) => {
   const data = doc.toObject();
+  const hero = { ...data.hero, slides: (data.hero.slides || []).filter((slide) => slide.isActive !== false) };
   return {
-    hero: data.hero,
+    hero,
     sections: data.sections,
     features: data.features,
     steps: data.steps,
@@ -24,6 +25,11 @@ const toPublic = (doc) => {
 };
 
 const imageId = (hero, key) => (hero && hero[key] && hero[key].publicId) || '';
+
+const slideAssets = (hero) =>
+  ((hero && hero.slides) || [])
+    .flatMap((slide) => [slide.image && slide.image.publicId, slide.logo && slide.logo.publicId])
+    .filter(Boolean);
 
 const getPublicContent = asyncHandler(async (req, res) => {
   const doc = await LandingContent.getContent();
@@ -48,19 +54,28 @@ const updateContent = asyncHandler(async (req, res) => {
 
   if (Object.keys(update).length === 0) throw new ApiError(400, 'No valid content provided');
 
-  const previous = {};
-  if (payload.hero) {
-    const before = await LandingContent.getContent();
-    HERO_IMAGES.forEach((key) => {
-      if (payload.hero[key]) previous[key] = imageId(before.hero, key);
-    });
-  }
+  let before = null;
+  if (payload.hero) before = (await LandingContent.getContent()).toObject();
 
   const doc = await LandingContent.replaceContent(update);
 
-  for (const key of Object.keys(previous)) {
-    const old = previous[key];
-    if (old && old !== imageId(doc.hero, key)) await destroyAsset(old);
+  if (before) {
+    for (const key of HERO_IMAGES) {
+      if (!payload.hero[key]) continue;
+      const old = imageId(before.hero, key);
+      if (old && old !== imageId(doc.hero, key)) await destroyAsset(old);
+    }
+
+    if (payload.hero.slides !== undefined) {
+      const used = new Set([
+        ...slideAssets(doc.toObject().hero),
+        imageId(doc.hero, 'image'),
+        imageId(doc.hero, 'bannerImage')
+      ]);
+      for (const id of new Set(slideAssets(before.hero))) {
+        if (!used.has(id)) await destroyAsset(id);
+      }
+    }
   }
 
   res.status(200).json(new ApiResponse(200, doc, 'Content updated successfully'));

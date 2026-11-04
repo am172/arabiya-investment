@@ -105,6 +105,33 @@ const withUids = (list) => (list || []).map((item) => ({ ...item, _uid: uid() })
 
 const stripUid = (list) => list.map(({ _uid, ...rest }) => rest);
 
+const DEFAULT_SLIDER = { autoplay: true, interval: 6, effect: 'fade', showArrows: true, showDots: true };
+
+const slideToDraft = (slide) => ({
+  _uid: uid(),
+  isActive: slide.isActive !== false,
+  company: slide.company || '',
+  logo: asset(slide.logo),
+  eyebrow: slide.eyebrow || '',
+  title: slide.title || '',
+  description: slide.description || '',
+  image: asset(slide.image),
+  primaryCta: cta(slide.primaryCta),
+  secondaryCta: cta(slide.secondaryCta)
+});
+
+const slideToPayload = (slide) => ({
+  isActive: slide.isActive,
+  company: slide.company.trim(),
+  logo: { url: slide.logo.url, publicId: slide.logo.publicId },
+  eyebrow: slide.eyebrow.trim(),
+  title: slide.title.trim(),
+  description: slide.description.trim(),
+  image: { url: slide.image.url, publicId: slide.image.publicId },
+  primaryCta: { label: slide.primaryCta.label.trim(), href: slide.primaryCta.href.trim() },
+  secondaryCta: { label: slide.secondaryCta.label.trim(), href: slide.secondaryCta.href.trim() }
+});
+
 const toDraft = (data) => {
   const story = data.story || {};
   const hero = data.hero || {};
@@ -120,7 +147,9 @@ const toDraft = (data) => {
       bannerOverlay: Number.isFinite(overlay) ? overlay : 55,
       badges: withUids(hero.badges),
       primaryCta: cta(hero.primaryCta),
-      secondaryCta: cta(hero.secondaryCta)
+      secondaryCta: cta(hero.secondaryCta),
+      slides: (hero.slides || []).map(slideToDraft),
+      slider: { ...DEFAULT_SLIDER, ...(hero.slider || {}) }
     },
     features: withUids(data.features),
     steps: withUids(data.steps),
@@ -152,6 +181,14 @@ const toPayload = (draft) => ({
     secondaryCta: {
       label: draft.hero.secondaryCta.label.trim(),
       href: draft.hero.secondaryCta.href.trim()
+    },
+    slides: draft.hero.slides.map(slideToPayload),
+    slider: {
+      autoplay: draft.hero.slider.autoplay,
+      interval: Number(draft.hero.slider.interval),
+      effect: draft.hero.slider.effect,
+      showArrows: draft.hero.slider.showArrows,
+      showDots: draft.hero.slider.showDots
     }
   },
   features: stripUid(draft.features),
@@ -176,12 +213,21 @@ const validate = (draft) => {
     if (!String(badge.text || '').trim()) errors[`hero.badges[${index}].text`] = 'This field is required';
   });
 
-  ['primaryCta', 'secondaryCta'].forEach((key) => {
-    const label = draft.hero[key].label.trim();
-    const href = draft.hero[key].href.trim();
-    if (label && !href) errors[`hero.${key}.href`] = 'Add a link, or clear the label to hide the button';
-    if (href && !label) errors[`hero.${key}.label`] = 'Add a label, or clear the link to hide the button';
-    if (href && !isValidLink(href)) errors[`hero.${key}.href`] = 'Use /path, #section or a full https:// link';
+  const checkCta = (source, path) => {
+    ['primaryCta', 'secondaryCta'].forEach((key) => {
+      const label = source[key].label.trim();
+      const href = source[key].href.trim();
+      if (label && !href) errors[`${path}${key}.href`] = 'Add a link, or clear the label to hide the button';
+      if (href && !label) errors[`${path}${key}.label`] = 'Add a label, or clear the link to hide the button';
+      if (href && !isValidLink(href)) errors[`${path}${key}.href`] = 'Use /path, #section or a full https:// link';
+    });
+  };
+
+  checkCta(draft.hero, 'hero.');
+
+  draft.hero.slides.forEach((slide, index) => {
+    if (!slide.title.trim()) errors[`hero.slides[${index}].title`] = 'The title is required';
+    checkCta(slide, `hero.slides[${index}].`);
   });
 
   Object.entries(REQUIRED).forEach(([field, keys]) => {
@@ -269,7 +315,7 @@ export default function ContentPage() {
     const ok = await confirm({
       title: 'Reset all content',
       message:
-        'Every section on this page returns to the default content. Your edits will be lost. Uploaded hero images are kept.',
+        'Every section on this page returns to the default content. Your edits will be lost. Uploaded hero images and slider slides are kept.',
       confirmLabel: 'Reset'
     });
     if (!ok) return;
@@ -323,8 +369,8 @@ export default function ContentPage() {
               aria-selected={selected}
               onClick={() => setTab(item.id)}
               className={`relative inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${selected
-                  ? 'bg-brand-600 text-white shadow-sm'
-                  : 'bg-card text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50'
+                ? 'bg-brand-600 text-white shadow-sm'
+                : 'bg-card text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50'
                 }`}
             >
               {t(item.label)}

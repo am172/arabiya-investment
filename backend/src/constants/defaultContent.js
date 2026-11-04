@@ -14,7 +14,9 @@ module.exports = Object.freeze({
       { icon: 'clock', text: 'التزام بالتوريد' }
     ],
     primaryCta: { label: 'اطلب عرض سعر', href: '/#contact' },
-    secondaryCta: { label: 'تصفح المنتجات', href: '/#categories' }
+    secondaryCta: { label: 'تصفح المنتجات', href: '/#categories' },
+    slides: [],
+    slider: { autoplay: true, interval: 6, effect: 'fade', showArrows: true, showDots: true }
   },
   sections: [
     { key: 'stats', enabled: true, variant: '' },

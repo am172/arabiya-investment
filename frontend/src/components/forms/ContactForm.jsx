@@ -1,245 +1,186 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Loader2, Send } from 'lucide-react';
-import Field from '@/components/ui/Field';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { CheckCircle2, Loader2, Send } from 'lucide-react';
+import FormField, { controlClass, fieldAria } from '@/components/catalog/FormField';
 import { useT } from '@/components/providers/TextsProvider';
 import { sendContactMessage } from '@/lib/api/contact';
-import { mapServerErrors, validateContact } from '@/lib/utils/validators';
+import { toErrorMap } from '@/lib/api/requests';
 import { trackEvent } from '@/lib/analytics/tracker';
-import { NEW_SUBJECT_PARAM } from '@/lib/utils/contactTopics';
-import { useContactStore } from '@/store/useContactStore';
 
-const EMPTY = {
-  name: '',
-  email: '',
-  phone: '',
-  childAge: '',
-  subject: '',
-  packageInterest: '',
-  message: '',
-  website: ''
-};
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMPTY = { name: '', email: '', phone: '', subject: '', message: '', website: '' };
 
-export default function ContactForm({ packages }) {
+export default function ContactForm({ className = '' }) {
   const t = useT();
-  const selectedPackage = useContactStore((state) => state.selectedPackage);
-  const subject = useContactStore((state) => state.subject);
-  const subjectKey = useContactStore((state) => state.subjectKey);
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState('idle');
-  const [serverError, setServerError] = useState('');
+  const [formError, setFormError] = useState('');
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
-  useEffect(() => {
-    if (selectedPackage) setForm((current) => ({ ...current, packageInterest: selectedPackage }));
-  }, [selectedPackage]);
+  const setField = (name, value) => {
+    setForm((current) => ({ ...current, [name]: value }));
+    setErrors((current) => (current[name] ? { ...current, [name]: undefined } : current));
+  };
 
-  useEffect(() => {
-    if (subject) setForm((current) => ({ ...current, subject }));
-  }, [subject, subjectKey]);
-
-  useEffect(() => {
-    const topic = new URLSearchParams(window.location.search).get('topic');
-    if (topic === NEW_SUBJECT_PARAM) {
-      setForm((current) => ({ ...current, subject: t('contact_subjectNew') }));
-    }
-  }, []);
-
-  const bind = (name) => ({
-    name,
-    value: form[name],
-    error: errors[name],
-    onChange: (event) => setForm((current) => ({ ...current, [name]: event.target.value }))
-  });
-
-  const handleSubmit = async (event) => {
+  const submit = async (event) => {
     event.preventDefault();
-    const found = validateContact(form, t);
+    if (sending) return;
+
+    const found = {};
+    if (!form.name.trim()) found.name = t('contactForm_errName');
+    if (!EMAIL.test(form.email.trim())) found.email = t('contactForm_errEmail');
+    if (form.message.trim().length < 10) found.message = t('contactForm_errMessage');
+
     setErrors(found);
-    setServerError('');
     if (Object.keys(found).length > 0) return;
 
-    const payload = {
-      name: form.name.trim(),
-      email: form.email.trim(),
-      phone: form.phone.trim(),
-      subject: form.subject.trim(),
-      message: form.message.trim(),
-      packageInterest: form.packageInterest,
-      website: form.website
-    };
-    if (form.childAge !== '') payload.childAge = Number(form.childAge);
-
-    setStatus('submitting');
+    setSending(true);
+    setFormError('');
     try {
-      await sendContactMessage(payload);
+      await sendContactMessage({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        subject: form.subject.trim(),
+        message: form.message.trim(),
+        website: form.website
+      });
       trackEvent('FORM_SUBMIT', 'contact');
+      setSent(true);
       setForm(EMPTY);
-      setStatus('success');
-    } catch (err) {
-      setErrors(mapServerErrors(err.errors));
-      setServerError(err.message);
-      setStatus('idle');
+    } catch (error) {
+      const map = toErrorMap(error.errors);
+      const next = {};
+      if (map.name) next.name = t('contactForm_errName');
+      if (map.email) next.email = t('contactForm_errEmail');
+      if (map.message) next.message = t('contactForm_errMessage');
+      setErrors(next);
+      if (Object.keys(next).length === 0) setFormError(t('contactForm_errGeneric'));
+    } finally {
+      setSending(false);
     }
   };
 
-  const submitting = status === 'submitting';
+  if (sent) {
+    return (
+      <div
+        role="status"
+        className={`flex flex-col items-center gap-4 rounded-theme border border-border bg-surface px-6 py-14 text-center ${className}`}
+      >
+        <motion.span
+          initial={{ scale: 0.6, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+          className="flex items-center justify-center w-20 h-20 rounded-full bg-success/15 text-success"
+        >
+          <CheckCircle2 size={44} />
+        </motion.span>
+        <h3 className="text-2xl font-extrabold">{t('contactForm_successTitle')}</h3>
+        <p className="max-w-md leading-8 text-muted">{t('contactForm_successText')}</p>
+        <button
+          type="button"
+          onClick={() => setSent(false)}
+          className="px-6 py-3 mt-2 text-sm font-semibold transition border rounded-full border-border hover:border-primary hover:text-primary"
+        >
+          {t('contactForm_another')}
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      {status === 'success' ? (
-        <motion.div
-          key="success"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-          className="flex min-h-[26rem] flex-col items-center justify-center text-center"
-        >
-          <motion.svg viewBox="0 0 52 52" className="w-24 h-24 text-success" aria-hidden="true">
-            <motion.circle
-              cx="26"
-              cy="26"
-              r="24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.6 }}
-            />
-            <motion.path
-              d="M14 27l8 8 16-17"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            />
-          </motion.svg>
-          <h3 className="mt-6 text-2xl font-bold">{t('contact_successTitle')}</h3>
-          <p className="max-w-sm mt-2 text-muted">{t('contact_successText')}</p>
-          <button
-            type="button"
-            onClick={() => setStatus('idle')}
-            className="mt-8 rounded-full border border-border px-6 py-2.5 text-sm font-semibold transition hover:border-primary hover:text-primary"
-          >
-            {t('contact_another')}
-          </button>
-        </motion.div>
-      ) : (
-        <motion.form
-          key="form"
-          onSubmit={handleSubmit}
-          noValidate
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="space-y-5"
-        >
-          {serverError && (
-            <div
-              role="alert"
-              className="px-4 py-3 text-sm font-medium border rounded-xl border-error/30 bg-error/10 text-error"
-            >
-              {serverError}
-            </div>
-          )}
-
-          <div className="grid gap-5 sm:grid-cols-2">
-            <Field
-              label={t('contact_fName')}
-              autoComplete="name"
-              placeholder={t('contact_fNamePh')}
-              {...bind('name')}
-            />
-            <Field
-              label={t('contact_fEmail')}
-              type="email"
-              autoComplete="email"
-              dir="ltr"
-              placeholder="name@example.com"
-              {...bind('email')}
-            />
-            <Field
-              label={t('contact_fPhone')}
-              type="tel"
-              autoComplete="tel"
-              dir="ltr"
-              {...bind('phone')}
-            />
-            <Field
-              label={t('contact_fAge')}
-              type="number"
-              min="1"
-              max="18"
-              {...bind('childAge')}
-            />
-          </div>
-
-          <Field
-            label={t('contact_fSubject')}
-            list="contact-subjects"
-            maxLength={150}
-            placeholder={t('contact_fSubjectPh')}
-            {...bind('subject')}
-          />
-          <datalist id="contact-subjects">
-            <option value={t('contact_subjectNew')} />
-            <option value={t('contact_subjectTrial')} />
-            <option value={t('contact_subjectPackages')} />
-            <option value={t('contact_subjectGeneral')} />
-          </datalist>
-
-          <Field as="select" label={t('contact_fPackage')} {...bind('packageInterest')}>
-            <option value="">{t('contact_fPackageNone')}</option>
-            {packages.map((pkg) => (
-              <option key={pkg._id} value={pkg.name}>
-                {pkg.name}
-              </option>
-            ))}
-          </Field>
-
-          <Field
-            as="textarea"
-            rows={5}
-            label={t('contact_fMessage')}
-            placeholder={t('contact_fMessagePh')}
-            hint={`${form.message.length}/2000`}
-            {...bind('message')}
-          />
-
-          <div aria-hidden="true" className="absolute -start-[9999px] h-0 w-0 overflow-hidden opacity-0">
-            <label htmlFor="website">Website</label>
-            <input
-              id="website"
-              name="website"
-              type="text"
-              tabIndex={-1}
-              autoComplete="off"
-              value={form.website}
-              onChange={(event) => setForm((current) => ({ ...current, website: event.target.value }))}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={submitting}
-            className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
-          >
-            <span className="absolute inset-0 transition-transform duration-700 -translate-x-full pointer-events-none bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:translate-x-full" />
-            <span className="relative inline-flex items-center gap-2">
-              {submitting ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} className="rtl:-scale-x-100" />}
-              {submitting ? t('contact_sending') : t('contact_send')}
-            </span>
-          </button>
-        </motion.form>
+    <form
+      onSubmit={submit}
+      noValidate
+      className={`relative space-y-4 rounded-theme border border-border bg-surface p-6 sm:p-8 ${className}`}
+    >
+      {formError && (
+        <p role="alert" className="px-4 py-3 text-sm font-medium border rounded-xl border-error/30 bg-error/10 text-error">
+          {formError}
+        </p>
       )}
-    </AnimatePresence>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <FormField id="cf-name" label={t('contactForm_name')} required error={errors.name}>
+          <input
+            {...fieldAria('cf-name', errors.name)}
+            dir="auto"
+            autoComplete="name"
+            className={controlClass(errors.name)}
+            value={form.name}
+            onChange={(event) => setField('name', event.target.value)}
+          />
+        </FormField>
+        <FormField id="cf-email" label={t('contactForm_email')} required error={errors.email}>
+          <input
+            {...fieldAria('cf-email', errors.email)}
+            type="email"
+            dir="ltr"
+            autoComplete="email"
+            className={`${controlClass(errors.email)} text-start`}
+            value={form.email}
+            onChange={(event) => setField('email', event.target.value)}
+          />
+        </FormField>
+        <FormField id="cf-phone" label={t('contactForm_phone')}>
+          <input
+            id="cf-phone"
+            type="tel"
+            dir="ltr"
+            inputMode="tel"
+            autoComplete="tel"
+            className={`${controlClass()} text-start`}
+            value={form.phone}
+            onChange={(event) => setField('phone', event.target.value)}
+          />
+        </FormField>
+        <FormField id="cf-subject" label={t('contactForm_subject')}>
+          <input
+            id="cf-subject"
+            dir="auto"
+            maxLength={150}
+            className={controlClass()}
+            value={form.subject}
+            onChange={(event) => setField('subject', event.target.value)}
+          />
+        </FormField>
+      </div>
+
+      <FormField id="cf-message" label={t('contactForm_message')} required error={errors.message}>
+        <textarea
+          {...fieldAria('cf-message', errors.message)}
+          dir="auto"
+          rows={5}
+          maxLength={3000}
+          className={`${controlClass(errors.message)} resize-y`}
+          value={form.message}
+          onChange={(event) => setField('message', event.target.value)}
+        />
+      </FormField>
+
+      <div aria-hidden="true" className="absolute -start-[9999px] h-0 w-0 overflow-hidden">
+        <label>
+          Website
+          <input
+            tabIndex={-1}
+            autoComplete="off"
+            value={form.website}
+            onChange={(event) => setField('website', event.target.value)}
+          />
+        </label>
+      </div>
+
+      <button
+        type="submit"
+        disabled={sending}
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition hover:-translate-y-0.5 disabled:opacity-70 sm:w-auto"
+      >
+        {sending ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} className="rtl:-scale-x-100" />}
+        {sending ? t('contactForm_sending') : t('contactForm_submit')}
+      </button>
+    </form>
   );
 }
