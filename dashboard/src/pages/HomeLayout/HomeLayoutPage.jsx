@@ -22,7 +22,9 @@ import {
   Save,
   Sparkles,
   Star,
-  Video
+  Video,
+  Users,
+  MapPin
 } from 'lucide-react';
 import contentService from '../../services/content.service';
 import useFetch from '../../hooks/useFetch';
@@ -46,7 +48,9 @@ const ORDER = [
   'showcase',
   'testimonials',
   'faq',
-  'contact'
+  'contact',
+  'partners',
+  'branches',
 ];
 
 const META = {
@@ -59,6 +63,8 @@ const META = {
   story: { label: 'Our story', text: 'Story from Page content', icon: BookText },
   showcase: { label: 'Student stories', text: 'Videos from the Company videos page', icon: Video },
   testimonials: { label: 'Testimonials', text: 'Reviews from the Client reviews page', icon: MessageSquareQuote },
+  partners: { label: 'Success partners', text: 'Logos from the Success partners page', icon: Users },
+  branches: { label: 'Our branches', text: 'Branch groups from the Our branches page', icon: MapPin },
   faq: { label: 'FAQ', text: 'First four questions from Page content', icon: HelpCircle },
   contact: { label: 'Contact', text: 'Request form and contact details', icon: Mail }
 };

@@ -380,8 +380,8 @@ export default function RequestModal({ product, onClose }) {
 
     return createPortal(
         <div
-            dir="rtl"
-            lang="ar"
+            // dir="rtl"
+            // lang="ar"
             className={`${arabic.variable} font-arabic fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-6`}
             role="presentation"
         >

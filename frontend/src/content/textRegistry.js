@@ -324,9 +324,22 @@ export const TEXT_GROUPS = [
       ['carousel_prev', 'Carousel previous (accessibility)', 'السابق'],
       ['carousel_next', 'Carousel next (accessibility)', 'التالي'],
       ['hero_slider', 'Hero slider (accessibility)', 'شرائح الشركات'],
+      ['partners_eyebrow', 'Partners: small label', 'شركاؤنا'],
+      ['partners_title', 'Partners: title', 'شركاء'],
+      ['partners_highlight', 'Partners: highlighted words', 'النجاح'],
+      ['partners_description', 'Partners: description', 'نفخر بالعمل مع شركاء يثقون بنا ونثق بهم.', true],
+      ['partners_visit', 'Partner link (accessibility, use {name})', 'زيارة موقع {name}'],
+      ['partners_list', 'Partners list (accessibility)', 'شركاء النجاح'],
       ['hero_slide', 'Hero slide (accessibility, use {n} and {total})', 'الشريحة {n} من {total}'],
       ['hero_pause', 'Pause the slider', 'إيقاف التشغيل التلقائي'],
       ['hero_play', 'Play the slider', 'تشغيل تلقائي'],
+      ['branches_eyebrow', 'Branches: small label', 'فروعنا'],
+      ['branches_title', 'Branches: title', 'نتواجد'],
+      ['branches_highlight', 'Branches: highlighted words', 'بالقرب منك'],
+      ['branches_description', 'Branches: description', 'اختر الفرع أو المكتب لتراه على الخريطة.', true],
+      ['branches_map', 'Map (accessibility)', 'خريطة الفروع'],
+      ['branches_open', 'Open in map link', 'فتح في الخريطة'],
+      ['branches_all', 'Show all branches', 'عرض كل الفروع']
     ]
   },
   {

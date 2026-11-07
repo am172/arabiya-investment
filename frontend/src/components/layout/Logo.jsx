@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { GraduationCap } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 import SectionLink from './SectionLink';
 
 export default function Logo({
@@ -27,16 +27,17 @@ export default function Logo({
           height={80}
           unoptimized
           priority
-          className={`w-auto object-contain ${
-            keepColors ? '' : 'dark:brightness-0 dark:invert'
-          } ${imageClassName}`}
+          className={`w-auto object-contain transition-all duration-200 ${keepColors
+              ? ''
+              : 'dark:[filter:invert(1)_hue-rotate(180deg)_brightness(1.15)_contrast(1.05)]'
+            } ${imageClassName}`}
         />
       ) : (
         <>
           <span
             className={`flex items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/30 ring-1 ring-foreground/10 ${iconClassName}`}
           >
-            <GraduationCap size={22} />
+            <Building2 size={22} />
           </span>
           <span className={`font-heading font-bold text-foreground ${textClassName}`}>
             {siteName}

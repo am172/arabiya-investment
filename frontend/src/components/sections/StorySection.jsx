@@ -19,8 +19,6 @@ export default async function StorySection({ story, variant = 'book', moreHref =
     return (
         <section
             id="story"
-            dir="rtl"
-            lang="ar"
             className={`${arabic.variable} ${handwriting.variable} font-arabic relative isolate overflow-hidden py-16 sm:py-24`}
         >
             <LinesBackdrop />

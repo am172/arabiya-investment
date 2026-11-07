@@ -21,7 +21,7 @@ export default function HeroSection({ hero, stats = [] }) {
   const Variant = VARIANTS[hero.variant] || HeroSplit;
 
   return (
-    <div dir="rtl" lang="ar" className={`${arabic.variable} font-arabic`}>
+    <div className={`${arabic.variable} font-arabic`}>
       <Variant hero={hero} stats={stats} />
     </div>
   );

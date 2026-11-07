@@ -20,7 +20,11 @@ export const ROUTES = Object.freeze({
   LEGAL: '/legal',
   SETTINGS: '/settings',
   ADMINS: '/admins',
-  PROFILE: '/profile'
+  SUBSIDIARIES_ROUTE: '/subsidiaries',
+  PROFILE: '/profile',
+  PARTNERS: '/partners',
+  BRANCHES: '/branches',
 });
+
 
 export const withId = (route, id) => route.replace(':id', id);

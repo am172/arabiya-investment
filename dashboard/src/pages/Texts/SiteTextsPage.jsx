@@ -10,6 +10,148 @@ import EmptyState from '../../components/common/EmptyState';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
 import { t } from '../../i18n';
 
+const GROUP_TRANSLATIONS = {
+  'Corporate sections': 'أقسام الشركة والواجهة',
+  'Catalog pages': 'صفحات الكتالوج والمنتجات',
+  'Product request form': 'نموذج طلب منتج',
+  'Contact form': 'نموذج تواصل معنا'
+};
+
+const KEY_TRANSLATIONS = {
+  categories_eyebrow: 'الأقسام: عنوان فرعي صغير',
+  categories_title: 'الأقسام: العنوان الرئيسي',
+  categories_highlight: 'الأقسام: الكلمات المميزة بلون مختلف',
+  categories_description: 'الأقسام: الوصف',
+  featuredProducts_eyebrow: 'المنتجات المميزة: عنوان فرعي صغير',
+  featuredProducts_title: 'المنتجات المميزة: العنوان الرئيسي',
+  featuredProducts_highlight: 'المنتجات المميزة: الكلمات المميزة',
+  featuredProducts_description: 'المنتجات المميزة: الوصف',
+  productsHero_eyebrow: 'واجهة صفحة المنتجات: عنوان فرعي صغير',
+  productsHero_title: 'واجهة صفحة المنتجات: العنوان الرئيسي',
+  productsHero_highlight: 'واجهة صفحة المنتجات: الكلمات المميزة',
+  productsHero_description: 'واجهة صفحة المنتجات: الوصف',
+  catalog_metaTitle: 'عنوان صفحة الكتالوج (SEO)',
+  catalog_metaDescription: 'وصف صفحة الكتالوج (SEO)',
+  catalog_breadcrumbs: 'تسمية مسار التنقل (Breadcrumbs)',
+  catalog_home: 'رابط الصفحة الرئيسية',
+  catalog_search: 'نص حقل البحث في الكتالوج',
+  catalog_searchLabel: 'تسمية حقل البحث',
+  catalog_noResults: 'رسالة عدم وجود نتائج بحث',
+  catalog_emptyAll: 'رسالة الكتالوج فارغ',
+  catalog_emptyCategory: 'رسالة القسم فارغ',
+  catalog_viewCategory: 'زر عرض القسم',
+  catalog_viewProduct: 'زر عرض المنتج',
+  catalog_featured: 'شارة منتج مميز',
+  catalog_productsCount: 'عداد المنتجات داخل القسم',
+  catalog_itemsCount: 'عداد العناصر الفرعية داخل القسم',
+  catalog_subcategories: 'عنوان الأقسام الفرعية',
+  catalog_products: 'عنوان المنتجات',
+  catalog_relatedProducts: 'عنوان المنتجات ذات الصلة',
+  catalog_specifications: 'عنوان المواصفات',
+  catalog_gallery: 'عنوان معرض الصور',
+  catalog_orderNow: 'زر اطلب الآن / طلب عرض سعر',
+  request_title: 'نموذج الطلب: العنوان الرئيسي',
+  request_subtitle: 'نموذج الطلب: العنوان الفرعي',
+  request_description: 'نموذج الطلب: الوصف',
+  request_name: 'حقل الاسم',
+  request_email: 'حقل البريد الإلكتروني',
+  request_phone: 'حقل رقم الهاتف',
+  request_company: 'حقل اسم الشركة',
+  request_quantity: 'حقل الكمية المطلوبة',
+  request_notes: 'حقل الملاحظات أو الرسالة',
+  request_message: 'حقل الرسالة',
+  request_submit: 'زر إرسال الطلب',
+  request_sending: 'نص جاري الإرسال',
+  request_successTitle: 'عنوان رسالة نجاح الطلب',
+  request_successMessage: 'نص رسالة نجاح الطلب',
+  request_Success: 'رسالة نجاح إرسال الطلب',
+  request_close: 'زر إغلاق',
+  contact_eyebrow: 'تواصل معنا: عنوان فرعي صغير',
+  contact_title: 'تواصل معنا: العنوان الرئيسي',
+  contact_highlight: 'تواصل معنا: الكلمات المميزة',
+  contact_description: 'تواصل معنا: الوصف',
+  contact_name: 'حقل الاسم',
+  contact_email: 'حقل البريد الإلكتروني',
+  contact_phone: 'حقل رقم الهاتف',
+  contact_subject: 'حقل الموضوع',
+  contact_message: 'حقل الرسالة',
+  contact_submit: 'زر إرسال الرسالة',
+  contact_sending: 'نص جاري الإرسال',
+  contact_success: 'رسالة تم الإرسال بنجاح'
+};
+
+const WORD_REPLACEMENTS = [
+  [/^Categories:/i, 'الأقسام:'],
+  [/^Featured products:/i, 'المنتجات المميزة:'],
+  [/^Products hero:/i, 'واجهة المنتجات:'],
+  [/^Catalog:/i, 'الكتالوج:'],
+  [/^Product:/i, 'المنتج:'],
+  [/^Category:/i, 'القسم:'],
+  [/^Request form:/i, 'نموذج الطلب:'],
+  [/^Product request:/i, 'طلب منتج:'],
+  [/^Request:/i, 'طلب المنتج:'],
+  [/^Contact form:/i, 'نموذج التواصل:'],
+  [/^Contact:/i, 'تواصل معنا:'],
+  [/^Services:/i, 'الخدمات:'],
+  [/^About:/i, 'من نحن:'],
+  [/^Why us:/i, 'لماذا نحن:'],
+  [/^Partners:/i, 'الشركاء:'],
+  [/^Projects:/i, 'المشاريع:'],
+  [/^Stats:/i, 'الإحصائيات:'],
+  [/^Testimonials:/i, 'آراء العملاء:'],
+  [/^Hero:/i, 'البانر الرئيسي:'],
+  [/^CTA:/i, 'دعوة لاتخاذ إجراء (CTA):'],
+  [/\bsmall label\b/gi, 'عنوان فرعي صغير'],
+  [/\beyebrow\b/gi, 'عنوان فرعي صغير'],
+  [/\bhighlighted words\b/gi, 'الكلمات المميزة بلون مختلف'],
+  [/\bhighlight\b/gi, 'الكلمات المميزة'],
+  [/\bmeta title\b/gi, 'عنوان الصفحة (SEO)'],
+  [/\bmeta description\b/gi, 'وصف الصفحة (SEO)'],
+  [/\btitle\b/gi, 'العنوان'],
+  [/\bsubtitle\b/gi, 'العنوان الفرعي'],
+  [/\bdescription\b/gi, 'الوصف'],
+  [/\bplaceholder\b/gi, 'النص التوضيحي'],
+  [/\bbutton\b/gi, 'الزر'],
+  [/\bsubmit\b/gi, 'زر الإرسال'],
+  [/\bsuccess message\b/gi, 'رسالة النجاح'],
+  [/\berror message\b/gi, 'رسالة الخطأ'],
+  [/\bno results\b/gi, 'لا توجد نتائج'],
+  [/\bsearch\b/gi, 'البحث'],
+  [/\bbreadcrumbs\b/gi, 'مسار التنقل'],
+  [/\bview category\b/gi, 'عرض القسم'],
+  [/\bview product\b/gi, 'عرض المنتج'],
+  [/\bempty state\b/gi, 'رسالة عدم وجود محتوى'],
+  [/\bname\b/gi, 'الاسم'],
+  [/\bemail\b/gi, 'البريد الإلكتروني'],
+  [/\bphone\b/gi, 'رقم الهاتف'],
+  [/\bcompany\b/gi, 'الشركة'],
+  [/\bquantity\b/gi, 'الكمية'],
+  [/\bnotes\b/gi, 'الملاحظات'],
+  [/\bmessage\b/gi, 'الرسالة'],
+  [/\bsubject\b/gi, 'الموضوع'],
+  [/\bclose\b/gi, 'إغلاق']
+];
+
+const translateGroup = (label) => {
+  if (!label) return '';
+  if (GROUP_TRANSLATIONS[label]) return GROUP_TRANSLATIONS[label];
+  const fromI18n = t(label);
+  return fromI18n !== label ? fromI18n : label;
+};
+
+const translateFieldLabel = (key, label) => {
+  if (key && KEY_TRANSLATIONS[key]) return KEY_TRANSLATIONS[key];
+  if (!label) return key || '';
+  const fromI18n = t(label);
+  if (fromI18n !== label) return fromI18n;
+
+  let result = label;
+  WORD_REPLACEMENTS.forEach(([regex, arabic]) => {
+    result = result.replace(regex, arabic);
+  });
+  return result;
+};
+
 const filled = (values) =>
   Object.entries(values).reduce((acc, [key, value]) => {
     if (typeof value === 'string' && value.trim()) acc[key] = value.trim();
@@ -21,6 +163,7 @@ const signature = (values) =>
 
 function TextField({ field, value, onChange }) {
   const [key, label, fallback, multiline] = field;
+  const arabicLabel = translateFieldLabel(key, label);
   const long = multiline || fallback.length > 70;
   const custom = Boolean(value && value.trim());
   const shared = {
@@ -36,7 +179,7 @@ function TextField({ field, value, onChange }) {
     <div className="p-4 card">
       <div className="mb-1.5 flex items-center justify-between gap-3">
         <label htmlFor={shared.id} dir="rtl" className="text-sm font-medium text-slate-700">
-          {label}
+          {arabicLabel}
         </label>
         {custom && (
           <button
@@ -135,14 +278,17 @@ export default function SiteTextsPage() {
 
   const visible = needle
     ? groups
-        .flatMap((item) => item.fields)
-        .filter(
-          (field) =>
-            field[0].toLowerCase().includes(needle) ||
-            field[1].toLowerCase().includes(needle) ||
-            field[2].toLowerCase().includes(needle) ||
-            String(values[field[0]] || '').toLowerCase().includes(needle)
-        )
+      .flatMap((item) => item.fields)
+      .filter((field) => {
+        const arabicLabel = translateFieldLabel(field[0], field[1]).toLowerCase();
+        return (
+          field[0].toLowerCase().includes(needle) ||
+          field[1].toLowerCase().includes(needle) ||
+          arabicLabel.includes(needle) ||
+          field[2].toLowerCase().includes(needle) ||
+          String(values[field[0]] || '').toLowerCase().includes(needle)
+        );
+      })
     : group.fields;
 
   const customized = (item) =>
@@ -205,18 +351,16 @@ export default function SiteTextsPage() {
                 role="tab"
                 aria-selected={selected}
                 onClick={() => setGroupId(item.id)}
-                className={`inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${
-                  selected
+                className={`inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${selected
                     ? 'bg-brand-600 text-white shadow-sm'
                     : 'bg-card text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50'
-                }`}
+                  }`}
               >
-                {item.label}
+                {translateGroup(item.label)}
                 {count > 0 && (
                   <span
-                    className={`rounded-full px-1.5 py-0.5 text-[11px] font-semibold ${
-                      selected ? 'bg-white/20 text-white' : 'bg-brand-50 text-brand-700'
-                    }`}
+                    className={`rounded-full px-1.5 py-0.5 text-[11px] font-semibold ${selected ? 'bg-white/20 text-white' : 'bg-brand-50 text-brand-700'
+                      }`}
                   >
                     {count}
                   </span>

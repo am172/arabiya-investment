@@ -17,6 +17,21 @@ import Button from '@/components/ui/Button';
 import { useT } from '@/components/providers/TextsProvider';
 import { buildNavigation } from '@/content/navigation';
 import { arabic } from '@/lib/fonts';
+import LanguageSwitcher from '@/components/layout/LanguageSwitcher';
+
+/*
+ * Grid alignment: these three wrappers mirror the Hero's geometry exactly
+ * (outer max-w-[1280px] px-4 sm:px-6 -> lg:px-12 gutter -> card max-w-[1120px] / 560px on mobile)
+ * so the logo and the CTA sit on the same vertical lines as the Hero card edges.
+ */
+const SHELL_OUTER = 'mx-auto max-w-[1280px] px-4 sm:px-6';
+const SHELL_GUTTER = 'lg:px-12';
+const SHELL_INNER = 'mx-auto w-full max-w-[560px] lg:max-w-[1120px]';
+
+const CTA_STYLE =
+  '!rounded-full !bg-[#1D4ED8] !px-6 !py-2.5 !font-medium !text-white !shadow-sm hover:!bg-[#1E40AF] ' +
+  'dark:!bg-[#1E50E2] dark:hover:!bg-[#1E40AF]';
+
 export default function Navbar({ siteName, logo }) {
   const t = useT();
   const navigation = useMemo(() => buildNavigation(t), [t]);
@@ -79,71 +94,78 @@ export default function Navbar({ siteName, logo }) {
 
   return (
     <header
-      dir="rtl"
-      lang="ar"
       className={`${arabic.variable} fixed inset-x-0 top-0 z-50 border-b font-arabic transition-colors duration-500 ${solid
-        ? 'border-border/60 bg-background/80 shadow-sm backdrop-blur-xl dark:bg-surface/90'
-        : 'border-transparent bg-transparent dark:border-border/60 dark:bg-surface dark:shadow-sm'
+        ? 'border-border/60 bg-background/80 shadow-sm backdrop-blur-xl'
+        : 'border-transparent bg-transparent'
         }`}
     >
-      <div
-        className={`mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-5 transition-[height] duration-500 sm:px-8 lg:flex lg:justify-between ${scrolled ? 'h-[4.5rem] lg:h-24' : 'h-20 lg:h-28'
-          }`}
-      >
-        <button
-          type="button"
-          aria-label={open ? t('nav_closeMenu') : t('nav_openMenu')}
-          aria-expanded={open}
-          onClick={() => setOpen((value) => !value)}
-          className="flex items-center justify-center transition border rounded-full h-11 w-11 justify-self-start border-border bg-surface/70 text-foreground backdrop-blur-md hover:border-foreground/30 hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 lg:hidden"
-        >
-          {open ? <X size={20} /> : <Menu size={20} />}
-        </button>
-
-        <Logo
-          siteName={siteName}
-          logo={logo}
-          className="justify-self-center"
-          imageClassName={`max-w-[12rem] transition-[height] duration-500 sm:max-w-[14rem] lg:max-w-[20rem] ${scrolled ? 'h-12 lg:h-16' : 'h-14 lg:h-20'
-            }`}
-          iconClassName="h-12 w-12 lg:h-14 lg:w-14"
-          textClassName="text-xl sm:text-2xl lg:text-3xl"
-        />
-
-        <nav aria-label={t('nav_primaryLabel')} className="items-center hidden gap-1 lg:flex">
-          {navigation.links.map((link) => {
-            const isActive = isLinkActive(link);
-            return (
-              <SectionLink
-                key={link.id}
-                href={link.href}
-                aria-current={isActive ? 'page' : undefined}
-                className={`relative rounded-full px-4 py-2 text-[0.95rem] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 ${isActive ? 'text-foreground' : 'text-muted hover:text-foreground'
-                  }`}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="nav-pill"
-                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                    className="absolute inset-0 rounded-full bg-foreground/10 ring-1 ring-foreground/10"
-                  />
-                )}
-                <span className="relative">{link.label}</span>
-              </SectionLink>
-            );
-          })}
-        </nav>
-
-        <div className="flex items-center gap-3 justify-self-end">
-          <ThemeToggle />
-          <Button
-            href={navigation.cta.href}
-            size="sm"
-            className="hidden sm:inline-flex dark:!bg-white dark:!text-slate-900 dark:hover:!bg-white/90"
-            data-track="nav-cta"
+      <div className={SHELL_OUTER}>
+        <div className={SHELL_GUTTER}>
+          <div
+            className={`${SHELL_INNER} grid grid-cols-[1fr_auto_1fr] items-center transition-[height] duration-500 lg:flex lg:justify-between ${scrolled ? 'h-[4.5rem] lg:h-24' : 'h-20 lg:h-28'
+              }`}
           >
-            {navigation.cta.label}
-          </Button>
+            <button
+              type="button"
+              aria-label={open ? t('nav_closeMenu') : t('nav_openMenu')}
+              aria-expanded={open}
+              onClick={() => setOpen((value) => !value)}
+              className="flex items-center justify-center transition border rounded-full h-11 w-11 justify-self-start border-border bg-surface/70 text-foreground backdrop-blur-md hover:border-foreground/30 hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 lg:hidden"
+            >
+              {open ? <X size={20} /> : <Menu size={20} />}
+            </button>
+
+            <Logo
+              siteName={siteName}
+              logo={logo}
+              className="justify-self-center"
+              imageClassName={`max-w-[12rem] transition-[height] duration-500 sm:max-w-[14rem] lg:max-w-[20rem] ${scrolled ? 'h-12 lg:h-16' : 'h-14 lg:h-20'
+                }`}
+              iconClassName="h-12 w-12 lg:h-14 lg:w-14"
+              textClassName="text-xl sm:text-2xl lg:text-3xl"
+            />
+
+            <nav aria-label={t('nav_primaryLabel')} className="items-center hidden gap-1 lg:flex">
+              {navigation.links.map((link) => {
+                const isActive = isLinkActive(link);
+                return (
+                  <SectionLink
+                    key={link.id}
+                    href={link.href}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`relative rounded-full px-4 py-2 text-[0.95rem] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 ${isActive
+                      ? 'text-slate-900 dark:text-white'
+                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
+                      }`}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                        className="absolute inset-0 rounded-full bg-slate-200/70 dark:inset-x-4 dark:bottom-1 dark:top-auto dark:h-[2px] dark:bg-white"
+                      />
+                    )}
+                    <span className="relative">{link.label}</span>
+                  </SectionLink>
+                );
+              })}
+            </nav>
+
+            <div className="flex items-center gap-3 justify-self-end">
+              <ThemeToggle />
+              <div className="hidden lg:block">
+                <LanguageSwitcher />
+              </div>
+              <Button
+                href={navigation.cta.href}
+                size="sm"
+                className={`hidden sm:inline-flex ${CTA_STYLE}`}
+                data-track="nav-cta"
+              >
+                {navigation.cta.label}
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -155,9 +177,9 @@ export default function Navbar({ siteName, logo }) {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden lg:hidden"
+            className="px-4 overflow-hidden sm:px-6 lg:hidden"
           >
-            <ul className="flex flex-col gap-1 px-5 pt-2 pb-6 mx-auto max-w-7xl sm:px-8">
+            <ul className="flex flex-col gap-1 pt-2 pb-6 mx-auto max-w-[560px]">
               {navigation.links.map((link, index) => {
                 const isActive = isLinkActive(link);
                 return (
@@ -171,7 +193,7 @@ export default function Navbar({ siteName, logo }) {
                       href={link.href}
                       onClick={() => setOpen(false)}
                       aria-current={isActive ? 'page' : undefined}
-                      className={`flex items-center justify-between rounded-xl px-4 py-3 text-start text-base font-semibold text-foreground transition hover:bg-foreground/10 ${isActive ? 'bg-foreground/10 ring-1 ring-foreground/10' : ''
+                      className={`flex items-center justify-between rounded-xl px-4 py-3 text-start text-base font-semibold text-slate-900 transition hover:bg-slate-200/70 dark:text-white dark:hover:bg-white/10 ${isActive ? 'bg-slate-200/70 dark:bg-white/10' : ''
                         }`}
                     >
                       {link.label}
@@ -179,11 +201,22 @@ export default function Navbar({ siteName, logo }) {
                   </motion.li>
                 );
               })}
+              <motion.li
+                initial={{ opacity: 0, x: 16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.06 * navigation.links.length, duration: 0.35 }}
+                className="flex items-center justify-between px-4 py-3 mt-2 border rounded-xl border-border/60"
+              >
+                <span className="text-base font-semibold text-foreground">
+                  {t('nav_language')}
+                </span>
+                <LanguageSwitcher />
+              </motion.li>
               <li className="pt-3 sm:hidden">
                 <Button
                   href={navigation.cta.href}
                   onClick={() => setOpen(false)}
-                  className="w-full dark:!bg-white dark:!text-slate-900 dark:hover:!bg-white/90"
+                  className={`w-full ${CTA_STYLE}`}
                   data-track="nav-cta-mobile"
                 >
                   {navigation.cta.label}

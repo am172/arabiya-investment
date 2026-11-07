@@ -340,3 +340,59 @@ html[data-splash='seen'] .app-splash {
     animation: none;
   }
 }
+
+@keyframes partners-scroll {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.partners-track {
+  display: flex;
+  width: max-content;
+  animation: partners-scroll var(--partners-duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+.partners-marquee:hover .partners-track,
+.partners-marquee:focus-within .partners-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-track {
+    animation: none;
+  }
+}
+
+
+
+
+
+.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.skiptranslate iframe {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+}
+
+
+
+html[dir="ltr"] body { direction: ltr; }
+
+
+.branch-pin {
+  background: transparent !important;
+  border: 0 !important;
+  filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.35));
+}
+.leaflet-container {
+  font-family: inherit;
+}

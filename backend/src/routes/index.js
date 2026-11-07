@@ -17,7 +17,9 @@ const contentRoutes = require('./content.routes');
 const legalRoutes = require('./legal.routes');
 const textRoutes = require('./text.routes');
 const router = express.Router();
+const partnerRoutes = require('./partner.routes');
 const whatsappRoutes = require('./whatsapp.routes');
+const subsidiaryRoutes = require('./subsidiary.routes');
 const currencyRoutes = require('./currency.routes');
 const certificateRoutes = require('./certificate.routes');
 const cloudinaryRoutes = require('./cloudinary.routes');
@@ -25,7 +27,7 @@ const notificationRoutes = require('./notification.routes');
 const catalogRoutes = require('./catalog.routes');
 const optionTemplateRoutes = require('./optionTemplate.routes');
 const productRequestRoutes = require('./productRequest.routes');
-
+const branchRoutes = require('./branch.routes');
 router.get('/health', async (req, res) => {
   let database = 'disconnected';
 
@@ -64,13 +66,16 @@ router.use('/settings', settingsRoutes);
 router.use('/uploads', uploadRoutes);
 router.use('/content', contentRoutes);
 router.use('/legal', legalRoutes);
+router.use('/subsidiaries', subsidiaryRoutes);
 router.use('/texts', textRoutes);
 router.use('/whatsapp', whatsappRoutes);
 // router.use('/currencies', currencyRoutes);
 // router.use('/certificates', certificateRoutes);
 router.use('/cloudinary', cloudinaryRoutes);
+router.use('/branches', branchRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/catalog', catalogRoutes);
+router.use('/partners', partnerRoutes);
 router.use('/option-templates', optionTemplateRoutes);
 router.use('/requests', productRequestRoutes);
 module.exports = router;

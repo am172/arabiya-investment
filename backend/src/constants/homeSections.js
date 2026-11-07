@@ -8,6 +8,8 @@ module.exports = Object.freeze([
     'story',
     'showcase',
     'testimonials',
+    'partners',
+    'branches',
     'faq',
     'contact'
 ]);

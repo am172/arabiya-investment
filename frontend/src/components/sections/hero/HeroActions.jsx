@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowLeft, Play } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Phone } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { item } from './shared';
 
@@ -31,14 +31,14 @@ export default function HeroActions({ hero, onImage = false, centered = false })
                     size="lg"
                     className={`w-full sm:w-auto ${
                         onImage
-                            ? '!bg-white !text-slate-900 hover:!bg-white/90'
-                            : 'dark:!bg-foreground dark:!text-background dark:hover:!bg-foreground/90'
+                            ? '!bg-white !text-[#0B192C] hover:!bg-slate-100'
+                            : 'dark:!bg-white dark:!text-[#0B192C] dark:hover:!bg-slate-100'
                     }`}
                     data-track="hero-primary"
                     {...externalProps(primary.href)}
                 >
                     {primary.label}
-                    <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
+                    <ArrowLeft size={18} className="transition-transform rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 ltr:rotate-180" />
                 </Button>
             )}
             {showSecondary && (
@@ -48,14 +48,14 @@ export default function HeroActions({ hero, onImage = false, centered = false })
                     size="lg"
                     className={`w-full sm:w-auto ${
                         onImage
-                            ? '!border-white/40 !bg-white/10 !text-white hover:!bg-white/20'
-                            : 'dark:!border-foreground/25 dark:!bg-foreground/5 dark:!text-foreground dark:hover:!bg-foreground/15'
+                            ? '!border-white/40 !bg-white/5 !text-white hover:!bg-white/15'
+                            : 'dark:!border-white/40 dark:!bg-white/5 dark:!text-white dark:hover:!bg-white/15'
                     }`}
                     data-track="hero-secondary"
                     {...externalProps(secondary.href)}
                 >
-                    <Play size={16} className="fill-current" />
                     {secondary.label}
+                    <Phone size={16} />
                 </Button>
             )}
         </motion.div>

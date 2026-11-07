@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Facebook, Instagram, Mail, MapPin, Music2, Phone, Twitter, Youtube } from 'lucide-react';
+import { Facebook, Instagram, Mail, MapPin, Music2, Phone, Twitter, Youtube, FileText } from 'lucide-react';
 import Logo from './Logo';
 import SectionLink from './SectionLink';
 import { buildNavigation } from '@/content/navigation';
@@ -43,6 +43,19 @@ export default async function Footer({ siteName, logo, tagline, contact, socialL
             <p className="max-w-sm mt-5 text-sm leading-7 text-muted">
               {tagline || t('footer_description')}
             </p>
+
+            <div className="mt-6">
+              <a
+                href="/company-profile.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary/10 px-4 py-2.5 text-sm font-semibold text-primary transition-all hover:-translate-y-0.5 hover:bg-primary hover:text-primary-foreground dark:bg-primary/20 dark:hover:bg-primary"
+              >
+                <FileText size={18} />
+                <span> بروفايل الشركة</span>
+              </a>
+            </div>
+
             {socials.length > 0 && (
               <ul className="flex flex-wrap gap-3 mt-6">
                 {socials.map(({ key, label, icon: Icon }) => (
@@ -131,9 +144,6 @@ export default async function Footer({ siteName, logo, tagline, contact, socialL
             </Link>
             <Link href="/terms" className={LINK_CLASS}>
               {t('footer_terms')}
-            </Link>
-            <Link href="/verify" className={LINK_CLASS}>
-              {t('verify_footerLink')}
             </Link>
           </div>
         </div>

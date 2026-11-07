@@ -8,6 +8,8 @@ export const HOME_SECTIONS = [
   'story',
   'showcase',
   'testimonials',
+  'partners',
+  'branches',
   'faq',
   'contact'
 ];

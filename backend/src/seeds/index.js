@@ -2,16 +2,24 @@ const env = require('../config/env');
 const { connectDB, disconnectDB } = require('../config/db');
 const logger = require('../utils/logger');
 const seedAdmin = require('./admin.seed');
-const seedTheme = require('./theme.seed');
-const seedBrand = require('./brand.seed');
+const seedSettings = require('./settings.seed');
+const seedContent = require('./content.seed');
+const seedLegal = require('./legal.seed');
+const seedTexts = require('./texts.seed');
 const seedStats = require('./stats.seed');
+const seedBranches = require('./branches.seed');
+const seedPartners = require('./partners.seed');
 const seedCatalog = require('./catalog.seed');
 
 const SEEDERS = {
   admin: seedAdmin,
-  theme: seedTheme,
-  brand: seedBrand,
+  settings: seedSettings,
+  content: seedContent,
+  legal: seedLegal,
+  texts: seedTexts,
   stats: seedStats,
+  branches: seedBranches,
+  partners: seedPartners,
   catalog: seedCatalog
 };
 
@@ -26,6 +34,9 @@ const run = async () => {
   }
   if (force && env.isProduction) {
     throw new Error('--force is not allowed in production');
+  }
+  if (force && process.env.ALLOW_FORCE_SEED !== 'yes') {
+    throw new Error('--force overwrites existing data. Set ALLOW_FORCE_SEED=yes to confirm');
   }
 
   const targets = requested.length > 0 ? requested : Object.keys(SEEDERS);
@@ -46,6 +57,6 @@ run()
   })
   .catch(async (error) => {
     logger.error(`Seeding failed: ${error.message}`);
-    await disconnectDB().catch(() => { });
+    await disconnectDB().catch(() => {});
     process.exit(1);
   });

@@ -1,12 +1,6 @@
 const Stat = require('../models/Stat.model');
+const data = require('../data/arabiya.defaults');
 const logger = require('../utils/logger');
-
-const STATS = [
-  { label: 'سنوات من الخبرة', value: 0, suffix: '+', icon: 'award', order: 0 },
-  { label: 'عميل يثق بنا', value: 0, suffix: '+', icon: 'users', order: 1 },
-  { label: 'منتج في الكتالوج', value: 0, suffix: '+', icon: 'layers', order: 2 },
-  { label: 'طلب تم توريده', value: 0, suffix: '+', icon: 'target', order: 3 }
-];
 
 const seedStats = async ({ force = false } = {}) => {
   const count = await Stat.countDocuments();
@@ -15,8 +9,20 @@ const seedStats = async ({ force = false } = {}) => {
     return;
   }
   if (force) await Stat.deleteMany({});
-  await Stat.insertMany(STATS.map((stat) => ({ ...stat, prefix: '', description: '', isActive: false })));
-  logger.info('Stats seeded as inactive placeholders. Enter the real numbers and activate them.');
+
+  await Stat.insertMany(
+    data.stats.map((stat, index) => ({
+      label: stat.label,
+      value: stat.value,
+      prefix: stat.prefix || '',
+      suffix: stat.suffix || '',
+      icon: stat.icon || '',
+      description: stat.description || '',
+      order: index,
+      isActive: stat.isActive !== false
+    }))
+  );
+  logger.info('Stats seeded');
 };
 
 module.exports = seedStats;

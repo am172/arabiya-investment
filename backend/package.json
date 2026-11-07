@@ -12,6 +12,13 @@
       "seed:brand": "node src/seeds/index.js brand",
     "seed:stats": "node src/seeds/index.js stats",
     "seed:catalog": "node src/seeds/index.js catalog",
+    "seed:settings": "node src/seeds/index.js settings",
+    "seed:content": "node src/seeds/index.js content",
+    "seed:legal": "node src/seeds/index.js legal",
+    "seed:texts": "node src/seeds/index.js texts",
+    "seed:branches": "node src/seeds/index.js branches",
+    "seed:partners": "node src/seeds/index.js partners",
+    
       "seed:force": "node src/seeds/index.js --force"
    },
    "keywords": [],

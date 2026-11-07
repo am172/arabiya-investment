@@ -9,7 +9,9 @@ import { arAlerts } from './ar.alerts';
 import { arSeo } from './ar.seo';
 import { arCatalog } from './ar.catalog';
 import { arHero } from './ar.hero';
-const dictionary = { ...ar, ...arPages, ...arCatalog, ...arHero, ...arFeatures, ...arUpdates, ...arThemes, ...arLayouts, ...arNav, ...arAlerts, ...arSeo };
+import { arPartners } from './ar.partners';
+import { arBranches } from './ar.branches';
+const dictionary = { ...ar, ...arPages, ...arCatalog, ...arHero, ...arPartners, ...arBranches, ...arFeatures, ...arUpdates, ...arThemes, ...arLayouts, ...arNav, ...arAlerts, ...arSeo };
 
 export const t = (key, vars) => {
   const raw = Object.prototype.hasOwnProperty.call(dictionary, key) ? dictionary[key] : key;

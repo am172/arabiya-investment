@@ -15,6 +15,8 @@ import ShowcaseSection from '@/components/sections/ShowcaseSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import TestimonialsAlt from '@/components/sections/TestimonialsAlt';
 import ContactSection from '@/components/sections/ContactSection';
+import BranchesSection from '@/components/sections/BranchesSection';
+import { getBranches } from '@/lib/api/branches';
 import Faq from '@/components/ui/Faq';
 import JsonLd from '@/components/seo/JsonLd';
 import { getStats } from '@/lib/api/stats';
@@ -27,16 +29,20 @@ import { getT } from '@/lib/serverTexts';
 import { getHeadings } from '@/lib/headings';
 import { resolveContent } from '@/lib/content';
 import { resolveSections } from '@/lib/sections';
+import PartnersSection from '@/components/sections/PartnersSection';
+import { getPartners } from '@/lib/api/partners';
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [stats, categories, featured, videos, testimonials, settings, rawContent, t] = await Promise.all([
+  const [stats, categories, featured, videos, testimonials, partners, branches, settings, rawContent, t] = await Promise.all([
     getStats(),
     getCategories(),
     getFeaturedProducts(8),
     getVideos(),
     getTestimonials(),
+    getPartners(),
+    getBranches(),
     getSettings(),
     getContent(),
     getT()
@@ -70,6 +76,8 @@ export default async function HomePage() {
       ) : (
         <TestimonialsAlt testimonials={testimonials} variant={variantOf('testimonials')} />
       ),
+    partners: <PartnersSection partners={partners} />,
+    branches: <BranchesSection groups={branches} />,
     faq: (
       <Faq
         id="faq"

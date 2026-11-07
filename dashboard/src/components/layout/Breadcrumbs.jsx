@@ -10,6 +10,7 @@ const LABELS = {
   teachers: 'Teachers',
   videos: 'Student videos',
   packages: 'Packages',
+  partners: 'Success partners',
   testimonials: 'Testimonials',
   stats: 'Stats',
   messages: 'Messages',
@@ -28,6 +29,7 @@ const LABELS = {
   catalog: 'Products & categories',
   'option-templates': 'Option templates',
   requests: 'Product requests',
+  branches: 'Our branches',
 };
 
 const OBJECT_ID = /^[a-f\d]{24}$/i;

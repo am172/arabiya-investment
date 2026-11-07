@@ -14,7 +14,7 @@ module.exports = Object.freeze({
       { icon: 'clock', text: 'التزام بالتوريد' }
     ],
     primaryCta: { label: 'اطلب عرض سعر', href: '/#contact' },
-    secondaryCta: { label: 'تصفح المنتجات', href: '/#categories' },
+    secondaryCta: { label: 'تصفح المنتجات', href: '/products' },
     slides: [],
     slider: { autoplay: true, interval: 6, effect: 'fade', showArrows: true, showDots: true }
   },
@@ -28,6 +28,8 @@ module.exports = Object.freeze({
     { key: 'story', enabled: true, variant: 'book' },
     { key: 'showcase', enabled: false, variant: '' },
     { key: 'testimonials', enabled: false, variant: 'wall' },
+    { key: 'partners', enabled: true, variant: '' },
+    { key: 'branches', enabled: true, variant: '' },
     { key: 'faq', enabled: true, variant: '' },
     { key: 'contact', enabled: true, variant: '' }
   ],

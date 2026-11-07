@@ -16,6 +16,7 @@ import MessagesPage from '../pages/Messages/MessagesPage';
 import VideosListPage from '../pages/Videos/VideosListPage';
 import VideoCreatePage from '../pages/Videos/VideoCreatePage';
 import VideoEditPage from '../pages/Videos/VideoEditPage';
+import PartnersPage from '../pages/Partners/PartnersPage';
 import TestimonialsPage from '../pages/Testimonials/TestimonialsPage';
 import StatsPage from '../pages/Stats/StatsPage';
 import ThemeSettingsPage from '../pages/Theme/ThemeSettingsPage';
@@ -27,6 +28,8 @@ import SiteSettingsPage from '../pages/Settings/SiteSettingsPage';
 import AdminsPage from '../pages/Admins/AdminsPage';
 import ProfilePage from '../pages/Profile/ProfilePage';
 import NotFoundPage from '../pages/NotFound/NotFoundPage';
+import SubsidiariesPage from '../pages/Subsidiaries/SubsidiariesPage';
+import BranchesPage from '../pages/Branches/BranchesPage';
 
 export default function AppRoutes() {
   return (
@@ -53,6 +56,8 @@ export default function AppRoutes() {
 
           <Route path={ROUTES.THEME} element={<ThemeSettingsPage />} />
           <Route path={ROUTES.HOME_LAYOUT} element={<HomeLayoutPage />} />
+          <Route path={ROUTES.PARTNERS} element={<PartnersPage />} />
+          <Route path={ROUTES.BRANCHES} element={<BranchesPage />} />
           <Route path={ROUTES.CONTENT} element={<ContentPage />} />
           <Route path={ROUTES.STATS} element={<StatsPage />} />
           <Route path={ROUTES.TEXTS} element={<SiteTextsPage />} />
@@ -61,7 +66,7 @@ export default function AppRoutes() {
           <Route path={ROUTES.VIDEO_NEW} element={<VideoCreatePage />} />
           <Route path={ROUTES.VIDEO_EDIT} element={<VideoEditPage />} />
           <Route path={ROUTES.LEGAL} element={<LegalPage />} />
-
+          <Route path="/subsidiaries" element={<SubsidiariesPage />} />
           <Route path={ROUTES.SETTINGS} element={<SiteSettingsPage />} />
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
 

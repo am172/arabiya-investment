@@ -17,6 +17,8 @@ export const getHeadings = (t) => ({
     teachers: head(t, 'teachers'),
     showcase: head(t, 'showcase'),
     testimonials: head(t, 'testimonials'),
+    partners: head(t, 'partners'),
+    branches: head(t, 'branches'),
     packages: head(t, 'packages'),
     contact: head(t, 'contact'),
     productsHero: head(t, 'productsHero'),
