@@ -95,8 +95,7 @@ export default function VideoForm({ initialData, onSubmit, submitting, serverErr
       <FormSection title="Video details">
         <FormInput label="Title" className="sm:col-span-2" {...bind('title')} />
         <FormTextarea label="Description" className="sm:col-span-2" rows={3} {...bind('description')} />
-        <FormInput label="Student name" {...bind('studentName')} />
-        <FormInput label="Student age" type="number" min="3" max="18" {...bind('studentAge')} />
+
       </FormSection>
 
       <FormSection title="Video source">

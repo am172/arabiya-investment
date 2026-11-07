@@ -13,7 +13,7 @@ const sanitize = (input) =>
         return acc;
     }, {});
 
-const present = (doc) => ({ groups: TEXT_GROUPS, values: doc.values || {} });
+const present = (doc) => ({ groups: TEXT_GROUPS, values: sanitize(doc.values) });
 
 const getPublicTexts = asyncHandler(async (req, res) => {
     const doc = await SiteText.getTexts();

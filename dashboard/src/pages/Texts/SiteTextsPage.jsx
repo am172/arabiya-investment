@@ -243,10 +243,15 @@ export default function SiteTextsPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const res = await textService.update({ values: filled(values) });
+      const allowed = new Set(data.groups.flatMap((item) => item.fields.map((field) => field[0])));
+      const payload = Object.fromEntries(
+        Object.entries(filled(values)).filter(([key]) => allowed.has(key))
+      );
+      const res = await textService.update({ values: payload });
       apply(res.data);
       toast.success('Texts saved. The website will update shortly.');
     } catch (err) {
+      console.error(err.response?.data);
       toast.error(err.message);
     } finally {
       setSaving(false);
@@ -352,8 +357,8 @@ export default function SiteTextsPage() {
                 aria-selected={selected}
                 onClick={() => setGroupId(item.id)}
                 className={`inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${selected
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'bg-card text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50'
+                  ? 'bg-brand-600 text-white shadow-sm'
+                  : 'bg-card text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50'
                   }`}
               >
                 {translateGroup(item.label)}
